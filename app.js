@@ -485,7 +485,7 @@ function initHome() {
   $('#latest').innerHTML =
     sectionHead(1, 'آخر الترجمات', 'آخر الترجمات اللي انضافت أو تحدّثت.', 'browse.html', 'المكتبة كاملة') +
     (byDate[0] ? featureHTML(byDate[0]) : '') +
-    `<div class="grid grid-4 reveal">${byDate.slice(1, 5).map(cardHTML).join('')}</div>`;
+    (byDate.length > 1 ? `<div class="grid grid-4 reveal">${byDate.slice(1, 5).map(cardHTML).join('')}</div>` : '');
 
   /* ورشة الترجمة */
   const rows = [...wip].sort((a, b) => progressOf(b) - progressOf(a));

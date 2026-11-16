@@ -1,0 +1,19 @@
+Game-Name : "Grand Theft Auto: San Andreas"
+
+Company : "Rockstar Games"
+
+Version : "V1.0"
+
+Release : "2026/11/16"
+
+Prossing : "85"
+
+Tags : {قيد الترجمة ,روكستار ,سلسلة قراند}
+
+About-Translation : "ترجمة كاملة لواجهة اللعبة والقوائم، وكل المهمات والحوارات، وأسماء المناطق والسيارات والأسلحة والمحلات والمهارات."
+
+Incloud : {القوائم والإعدادات ,الشاشة أثناء اللعب ,تطور الشخصية ,المحلات ,القصة ,المهمات الجانبية والألعاب}
+
+Requirements-Min : {OS: "Windows 7 / 8 / 10 / 11", CPU: "Intel Pentium III 1GHz", RAM: "256 MB", GPU: "64MB Video Card (GeForce 3)", DX: "9.0", Storage: "4.7 GB"}
+
+Requirements-Rec : {OS: "Windows 10 / 11 64-bit", CPU: "Intel Pentium 4 / AMD Athlon XP", RAM: "384 MB", GPU: "128MB Video Card (GeForce 6)", DX: "9.0", Storage: "4.7 GB"}
