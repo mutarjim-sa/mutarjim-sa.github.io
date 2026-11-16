@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة إضافة ترجمة | مترجم</title>
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script>try{var t=localStorage.getItem('mutarjim-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=Silkscreen&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="add">
+
+  <div id="site-header"></div>
+
+  <section class="page-head ruled">
+    <div class="container">
+      <nav class="crumbs" aria-label="مسار الصفحة"><a href="index.html">الرئيسية</a><span data-icon="chevL"></span><span>لوحة الإضافة</span></nav>
+      <div class="page-head-row"><h1>إضافة ترجمة</h1></div>
+      <p>عبّي البيانات، وانسخ الكود اللي يطلع، والصقه داخل <code>GAMES</code> في ملف <code>data.js</code>. الترجمة بتظهر في الموقع على طول.</p>
+    </div>
+  </section>
+
+  <div class="container layout-add">
+    <form class="add-form" id="add-form" autocomplete="off">
+
+      <fieldset>
+        <legend>الأساسيات</legend>
+        <div class="row-2">
+          <label>اسم اللعبة *<input id="f-title" required placeholder="مثلاً: ظلال الصحراء"></label>
+          <label>المعرّف (إنجليزي) *<input id="f-id" required placeholder="desert-shadows" dir="ltr">
+            <small id="id-warn" class="warn" hidden>هذا المعرّف مستخدم للعبة ثانية</small>
+          </label>
+        </div>
+        <div class="row-2">
+          <label>شركة الإنتاج<select id="f-publisher"></select></label>
+          <label>النوع<input id="f-genre" list="genres" placeholder="أكشن، سباق، رعب..."><datalist id="genres"></datalist></label>
+        </div>
+        <div class="row-4">
+          <label>إصدار الترجمة<input id="f-version" placeholder="1.0" dir="ltr"></label>
+          <label>نسبة الترجمة %<input id="f-progress" type="number" min="0" max="100" placeholder="100" dir="ltr"></label>
+          <label>تاريخ التحديث<input id="f-date" type="date"></label>
+          <label>عدد التحميلات<input id="f-downloads" type="number" min="0" placeholder="0" dir="ltr"></label>
+        </div>
+        <div class="row-2">
+          <label>وصف قصير (للبطاقة)<input id="f-desc" maxlength="120" placeholder="مثلاً: ترجمة كاملة للقوائم والحوارات"></label>
+          <label>الإعجابات<input id="f-likes" type="number" min="0" placeholder="0" dir="ltr"></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>الغلاف</legend>
+        <label>رابط صورة الغلاف (اختياري، طولية 3:4)<input id="f-cover" placeholder="images/desert.jpg" dir="ltr"></label>
+        <p class="muted">بدون صورة، ينرسم غلاف تلقائي باسم اللعبة بين قوسين.</p>
+      </fieldset>
+
+      <fieldset>
+        <legend>الوصف والوسائط</legend>
+        <label>وصف الترجمة (كل سطر = فقرة)<textarea id="f-about" rows="4"></textarea></label>
+        <label>وش تشمل الترجمة (كل سطر = بند)<textarea id="f-features" rows="3" placeholder="ترجمة القوائم&#10;ترجمة الحوارات"></textarea></label>
+        <label>رابط فيديو يوتيوب<input id="f-video" placeholder="https://www.youtube.com/watch?v=..." dir="ltr"></label>
+        <label>روابط الصور (كل سطر = صورة)<textarea id="f-images" rows="3" dir="ltr" placeholder="images/shot1.jpg"></textarea></label>
+        <label>وسوم (افصل بفاصلة)<input id="f-tags" placeholder="عالم مفتوح، قصة، أونلاين"></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>ملفات التحميل</legend>
+        <div class="row-2">
+          <label>رابط ملف الترجمة *<input id="f-url" placeholder="https://..." dir="ltr"></label>
+          <label>حجم الملف<input id="f-filesize" placeholder="120 MB" dir="ltr"></label>
+        </div>
+        <label>ملفات إضافية (كل سطر: الاسم | الحجم | الرابط)<textarea id="f-extra" rows="3" placeholder="خط عربي بديل | 8 MB | https://..."></textarea></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>متطلبات تشغيل اللعبة (اختياري)</legend>
+        <div class="req-grid">
+          <span></span><b>الحد الأدنى</b><b>المُوصى به</b>
+          <span>النظام</span><input id="f-min-os" dir="ltr" placeholder="Windows 10"><input id="f-rec-os" dir="ltr" placeholder="Windows 11">
+          <span>المعالج</span><input id="f-min-cpu" dir="ltr" placeholder="Intel i5"><input id="f-rec-cpu" dir="ltr" placeholder="Intel i7">
+          <span>الرام</span><input id="f-min-ram" dir="ltr" placeholder="8 GB"><input id="f-rec-ram" dir="ltr" placeholder="16 GB">
+          <span>كرت الشاشة</span><input id="f-min-gpu" dir="ltr" placeholder="GTX 1050"><input id="f-rec-gpu" dir="ltr" placeholder="RTX 2060">
+          <span>DirectX</span><input id="f-min-dx" dir="ltr" placeholder="11"><input id="f-rec-dx" dir="ltr" placeholder="12">
+          <span>المساحة</span><input id="f-min-storage" dir="ltr" placeholder="12 GB"><input id="f-rec-storage" dir="ltr" placeholder="12 GB SSD">
+        </div>
+      </fieldset>
+    </form>
+
+    <aside class="add-side">
+      <div class="side-box">
+        <h4>معاينة البطاقة</h4>
+        <div id="preview" class="preview"></div>
+      </div>
+      <div class="side-box">
+        <h4>الكود (الصقه في data.js)</h4>
+        <textarea id="output" class="output" rows="12" readonly></textarea>
+        <div class="cta-row">
+          <button type="button" class="btn btn-solid" id="copy">نسخ الكود</button>
+          <button type="button" class="btn btn-line" id="reset">تفريغ</button>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
