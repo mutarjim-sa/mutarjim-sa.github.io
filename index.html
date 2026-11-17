@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مترجم | ترجمات عربية للألعاب</title>
+  <meta name="description" content="مترجم: مشروع تطوعي غير ربحي يترجم الألعاب إلى العربية. كل الترجمات مجانية وبدون إعلانات.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script>try{var t=localStorage.getItem('mutarjim-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=Silkscreen&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="index">
+
+  <div id="site-header"></div>
+
+  <!-- شاشة العنوان: مثل أول شاشة في أي لعبة -->
+  <section class="title-screen" id="title">
+    <canvas class="stars" id="stars" aria-hidden="true"></canvas>
+
+    <div class="hud hud-a"><span class="pix">MUTARJIM</span><span>ترجمات عربية للألعاب</span></div>
+    <div class="hud hud-b"><span>غير ربحي</span><i></i><span>مجاني</span><i></i><span>بدون إعلانات</span></div>
+
+    <div class="ts-center">
+      <h1 class="ts-logo" id="ts-logo"><span class="sr-only">مترجم: ترجمات عربية للألعاب</span></h1>
+      <p class="ts-tag">ترجمات عربية للألعاب، يسوّيها لاعبين متطوعين، ومجانية للكل.</p>
+      <nav class="ts-menu" id="ts-menu" aria-label="القائمة">
+        <a href="browse.html"><span class="cur" data-icon="cursor"></span>تصفّح المكتبة</a>
+        <button type="button" data-open-search><span class="cur" data-icon="cursor"></span>ابحث عن لعبة</button>
+        <a href="#workshop"><span class="cur" data-icon="cursor"></span>ورشة الترجمة</a>
+        <a href="about.html"><span class="cur" data-icon="cursor"></span>عن المشروع</a>
+      </nav>
+      <p class="ts-press en" id="ts-press" dir="ltr" aria-hidden="true">PRESS START</p>
+    </div>
+
+    <div class="hud hud-c"><kbd>↑</kbd><kbd>↓</kbd><span>تنقّل</span><kbd>Enter</kbd><span>اختيار</span></div>
+    <div class="hud hud-d"><span class="pix">V1.0</span><i></i><span class="pix">2026</span></div>
+  </section>
+
+  <!-- الأرقام -->
+  <div class="statbar">
+    <div class="container stats">
+      <div><span>ترجمات</span><b class="pix" id="st-total">0</b></div>
+      <div><span>مكتملة</span><b class="pix" id="st-done">0</b></div>
+      <div><span>قيد الترجمة</span><b class="pix" id="st-wip">0</b></div>
+      <div><span>شركات</span><b class="pix" id="st-pubs">0</b></div>
+      <div><span>تحميلات</span><b class="pix" id="st-dl">0</b></div>
+    </div>
+  </div>
+
+  <section class="section container" id="latest"></section>
+  <section class="section container" id="workshop"></section>
+  <section class="section container" id="publishers"></section>
+
+  <!-- ليش مترجم -->
+  <section class="section container" id="manifesto">
+    <header class="sec-head reveal">
+      <div class="sec-title"><span class="sec-no pix">04</span><h2>ليش مترجم؟</h2></div>
+    </header>
+    <div class="dialog reveal">
+      <span class="dialog-name">مترجم</span>
+      <div class="dialog-box">
+        <p class="dialog-text">كثير منّا فوّت قصص ألعاب يحبها بسبب اللغة. مترجم مشروع غير ربحي فكرته وحدة بس: نترجم الألعاب للعربي ونوفّر الترجمات للكل مجاناً. لا إعلانات، ولا اشتراكات، ولا روابط مختصرة.</p>
+        <span class="dialog-next" data-icon="chevD"></span>
+      </div>
+    </div>
+    <div class="dialog-actions reveal">
+      <a href="about.html#contact" class="btn btn-solid btn-lg">تطوّع معنا</a>
+      <a href="about.html#contact" class="btn btn-line btn-lg">اطلب ترجمة لعبة</a>
+      <a href="about.html" class="link">اقرأ عن المشروع</a>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

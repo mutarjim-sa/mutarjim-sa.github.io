@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المكتبة | مترجم</title>
+  <meta name="description" content="كل ترجمات الألعاب العربية في مكان واحد: ابحث وفلتر حسب الشركة والنوع والحالة.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script>try{var t=localStorage.getItem('mutarjim-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=Silkscreen&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="browse">
+
+  <div id="site-header"></div>
+
+  <section class="page-head">
+    <div class="container">
+      <nav class="crumbs" aria-label="مسار الصفحة"><a href="index.html">الرئيسية</a><span data-icon="chevL"></span><span>المكتبة</span></nav>
+      <div class="page-head-row">
+        <h1 id="page-title">المكتبة</h1>
+        <span class="count" id="page-count"></span>
+      </div>
+      <p id="page-sub"></p>
+    </div>
+  </section>
+
+  <div class="filterbar" id="lib-top">
+    <div class="container filterbar-inner">
+      <label class="field field-search">
+        <span data-icon="search"></span>
+        <input type="search" id="browse-q" placeholder="ابحث باسم اللعبة أو الشركة أو الوسم" autocomplete="off" aria-label="بحث في المكتبة">
+      </label>
+
+      <div class="tabs" id="status-tabs" role="group" aria-label="حالة الترجمة">
+        <button data-status="all">الكل <em id="n-all"></em></button>
+        <button data-status="done">مكتملة <em id="n-done"></em></button>
+        <button data-status="wip">قيد الترجمة <em id="n-wip"></em></button>
+      </div>
+
+      <div class="dd" id="pub-dd">
+        <button class="field dd-btn" id="pub-btn" aria-haspopup="listbox" aria-expanded="false"><span id="pub-label">كل الشركات</span><span data-icon="chevD"></span></button>
+        <div class="dd-panel" hidden>
+          <input type="search" id="pub-filter" placeholder="ابحث عن شركة" autocomplete="off" aria-label="ابحث عن شركة">
+          <ul id="pub-list"></ul>
+        </div>
+      </div>
+
+      <label class="field field-select">
+        <select id="sort" aria-label="الترتيب">
+          <option value="date">الأحدث</option>
+          <option value="name">الاسم</option>
+          <option value="progress">نسبة الترجمة</option>
+        </select>
+        <span data-icon="chevD"></span>
+      </label>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="genres" id="genre-list" aria-label="الأنواع"></div>
+    <div class="active-filters" id="active-filters"></div>
+
+    <div class="lib-main">
+      <div class="grid" id="grid"></div>
+
+      <div class="empty" id="noResults" hidden>
+        <span data-icon="search"></span>
+        <h3>ما لقينا شي</h3>
+        <p>جرّب كلمة ثانية أو امسح الفلاتر. ولو اللعبة مو موجودة، اطلب ترجمتها.</p>
+        <a href="about.html#contact" class="btn btn-line">اطلب ترجمة</a>
+      </div>
+
+      <nav class="pagination" id="pagination" aria-label="الصفحات"></nav>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
