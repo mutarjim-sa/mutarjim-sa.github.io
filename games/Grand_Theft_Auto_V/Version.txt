@@ -1,0 +1,19 @@
+Game-Name : "Grand Theft Auto V"
+
+Company : "Rockstar Games"
+
+Version : "V1.0"
+
+Release : "2026/11/17"
+
+Prossing : "95"
+
+Tags : {قيد التجربة ,روكستار ,سلسلة قراند}
+
+About-Translation : "ترجمة كاملة بالعربية الفصحى لواجهة اللعبة والقوائم، وكل المهمات والحوارات والترجمة النصية، والنصائح والرسائل، مع خط عربي مدمج يعرض الحروف موصولة ومن اليمين لليسار، وحزم تثبيت بضغطة زر عبر OpenIV."
+
+Incloud : {القوائم والإعدادات ,الشاشة أثناء اللعب ,القصة ,الحوارات والترجمة النصية ,المهمات الجانبية والأنشطة ,النصائح والرسائل ,الخط العربي}
+
+Requirements-Min : {OS: "Windows 10 64-bit", CPU: "Intel Core 2 Quad Q6600 2.4GHz / AMD Phenom 9850 2.5GHz", RAM: "4 GB", GPU: "NVIDIA 9800 GT 1GB / AMD HD 4870 1GB", DX: "10", Storage: "120 GB"}
+
+Requirements-Rec : {OS: "Windows 10 / 11 64-bit", CPU: "Intel Core i5 3470 3.2GHz / AMD FX-8350 4GHz", RAM: "8 GB", GPU: "NVIDIA GTX 660 2GB / AMD HD 7870 2GB", DX: "11", Storage: "120 GB"}

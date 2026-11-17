@@ -158,21 +158,117 @@ const Theme = {
   }
 };
 
-/* ---------- المفضلة (تنحفظ في متصفح الزائر) ---------- */
+/* ---------- المفضلة (تنحفظ في متصفح الزائر + عداد سحابي مجاني بدون داتابيس) ---------- */
 const Likes = {
   key: 'mutarjim-likes',
+  globalKey: 'mutarjim-global-likes',
   all() { try { return JSON.parse(localStorage.getItem(this.key)) || []; } catch { return []; } },
   has(id) { return this.all().includes(id); },
+  getGlobalMap() { try { return JSON.parse(localStorage.getItem(this.globalKey)) || {}; } catch { return {}; } },
+  getGlobal(id) { return this.getGlobalMap()[id] || 0; },
+  setGlobal(id, count) {
+    const map = this.getGlobalMap();
+    map[id] = Math.max(map[id] || 0, count);
+    try { localStorage.setItem(this.globalKey, JSON.stringify(map)); } catch {}
+  },
+  async fetchGlobal(id, onUpdate) {
+    try {
+      const res = await fetch(`https://api.counterapi.dev/v1/mutarjim-sa/${id}-likes`);
+      if (!res.ok) return;
+      const data = await res.json();
+      if (typeof data.count === 'number') {
+        this.setGlobal(id, data.count);
+        if (onUpdate) onUpdate();
+      }
+    } catch (e) {}
+  },
   toggle(id) {
     const list = this.all();
     const i = list.indexOf(id);
-    i === -1 ? list.push(id) : list.splice(i, 1);
+    const adding = i === -1;
+    adding ? list.push(id) : list.splice(i, 1);
     try { localStorage.setItem(this.key, JSON.stringify(list)); } catch {}
     paintFavCount();
-    return i === -1;
+
+    // عداد عام بدون قاعدة بيانات عبر CounterAPI
+    try {
+      fetch(`https://api.counterapi.dev/v1/mutarjim-sa/${id}-likes/${adding ? 'up' : 'down'}`, { keepalive: true })
+        .then(r => r.json())
+        .then(data => { if (data && typeof data.count === 'number') this.setGlobal(id, data.count); })
+        .catch(() => {});
+    } catch (e) {}
+
+    return adding;
+  },
+  add(id) {
+    const list = this.all();
+    if (!list.includes(id)) {
+      list.push(id);
+      try { localStorage.setItem(this.key, JSON.stringify(list)); } catch {}
+      paintFavCount();
+      try {
+        fetch(`https://api.counterapi.dev/v1/mutarjim-sa/${id}-likes/up`, { keepalive: true })
+          .then(r => r.json())
+          .then(data => { if (data && typeof data.count === 'number') this.setGlobal(id, data.count); })
+          .catch(() => {});
+      } catch (e) {}
+      return true;
+    }
+    return false;
   }
 };
-const likeCount = g => (g.likes || 0) + (Likes.has(g.id) ? 1 : 0);
+const likeCount = g => (g.likes || 0) + Likes.getGlobal(g.id) + (Likes.has(g.id) && Likes.getGlobal(g.id) === 0 ? 1 : 0);
+
+/* ---------- التحميلات (عداد عام سحابي مجاني بدون داتابيس + كاش محلي) ---------- */
+const Downloads = {
+  key: 'mutarjim-downloads',
+  globalKey: 'mutarjim-global-dl',
+  all() { try { return JSON.parse(localStorage.getItem(this.key)) || {}; } catch { return {}; } },
+  getGlobalMap() { try { return JSON.parse(localStorage.getItem(this.globalKey)) || {}; } catch { return {}; } },
+  get(id) {
+    const globalMap = this.getGlobalMap();
+    const local = this.all()[id] || 0;
+    const global = globalMap[id] || 0;
+    return Math.max(local, global);
+  },
+  setGlobal(id, count) {
+    const globalMap = this.getGlobalMap();
+    globalMap[id] = Math.max(globalMap[id] || 0, count);
+    try { localStorage.setItem(this.globalKey, JSON.stringify(globalMap)); } catch {}
+  },
+  async fetchGlobal(id, onUpdate) {
+    try {
+      const res = await fetch(`https://api.counterapi.dev/v1/mutarjim-sa/${id}-dl`);
+      if (!res.ok) return;
+      const data = await res.json();
+      if (typeof data.count === 'number') {
+        this.setGlobal(id, data.count);
+        if (onUpdate) onUpdate();
+      }
+    } catch (e) {}
+  },
+  add(id) {
+    // زيادة فورية محلياً للمتصفح
+    const map = this.all();
+    map[id] = (map[id] || 0) + 1;
+    try { localStorage.setItem(this.key, JSON.stringify(map)); } catch {}
+
+    // زيادة العداد العام السحابي لجميع الزوار فوراً
+    try {
+      fetch(`https://api.counterapi.dev/v1/mutarjim-sa/${id}-dl/up`, { keepalive: true })
+        .then(r => r.json())
+        .then(data => {
+          if (data && typeof data.count === 'number') {
+            this.setGlobal(id, data.count);
+          }
+        })
+        .catch(() => {});
+    } catch (e) {}
+
+    return this.get(id);
+  }
+};
+const downloadCount = g => (g.downloads || 0) + Downloads.get(g.id);
 function paintFavCount() {
   const el = $('#fav-count');
   if (!el) return;
@@ -367,7 +463,7 @@ function renderChrome() {
       <div class="suggest" id="palette-suggest"></div>
       <div class="palette-hint" id="palette-hint">
         <span>الأكثر طلباً:</span>
-        ${[...GAMES].sort((a, b) => b.downloads - a.downloads).slice(0, 4).map(g => `<a href="${gameUrl(g)}">${esc(g.title)}</a>`).join('')}
+        ${[...GAMES].sort((a, b) => downloadCount(b) - downloadCount(a)).slice(0, 4).map(g => `<a href="${gameUrl(g)}">${esc(g.title)}</a>`).join('')}
       </div>
     </div>
   </div>`;
@@ -397,7 +493,6 @@ function renderChrome() {
           <h5>المشروع</h5>
           <a href="about.html">عن المشروع</a>
           <a href="about.html#contact">اطلب ترجمة / تطوّع</a>
-          <a href="add.html">لوحة إضافة ترجمة</a>
           <a href="about.html#legal">الخصوصية والشروط</a>
         </div>
       </div>
@@ -479,7 +574,18 @@ function initHome() {
   $('#st-done').dataset.count = done.length;
   $('#st-wip').dataset.count = wip.length;
   $('#st-pubs').dataset.count = Object.keys(pubCounts).length;
-  $('#st-dl').dataset.count = GAMES.reduce((s, g) => s + (g.downloads || 0), 0);
+  $('#st-dl').dataset.count = GAMES.reduce((s, g) => s + downloadCount(g), 0);
+
+  // تحديث إجمالي التحميلات سحابياً بدون قاعدة بيانات
+  GAMES.forEach(g => {
+    Downloads.fetchGlobal(g.id, () => {
+      const el = $('#st-dl');
+      if (el) {
+        const total = GAMES.reduce((s, x) => s + downloadCount(x), 0);
+        el.textContent = fmt(total);
+      }
+    });
+  });
 
   /* آخر الترجمات */
   $('#latest').innerHTML =
@@ -810,7 +916,7 @@ function initGame() {
   const similar = GAMES
     .filter(x => x.id !== g.id)
     .map(x => ({ x, score: (x.publisher === g.publisher ? 2 : 0) + (x.genre === g.genre ? 1 : 0) }))
-    .sort((a, b) => b.score - a.score || b.x.downloads - a.x.downloads)
+    .sort((a, b) => b.score - a.score || downloadCount(b.x) - downloadCount(a.x))
     .slice(0, 4).map(o => o.x);
 
   const fileHTML = f => `
@@ -854,7 +960,7 @@ function initGame() {
         <dl class="g-meta">
           <div><dt>إصدار الترجمة</dt><dd>v${esc(g.version)}</dd></div>
           <div><dt>آخر تحديث</dt><dd>${esc(g.date)}</dd></div>
-          <div><dt>التحميلات</dt><dd>${fmt(g.downloads)}</dd></div>
+          <div><dt>التحميلات</dt><dd id="dl-count">${fmt(downloadCount(g))}</dd></div>
           <div><dt>الإعجابات</dt><dd id="like-count">${likeCount(g).toLocaleString('en')}</dd></div>
         </dl>
 
@@ -926,11 +1032,6 @@ function initGame() {
     $$('.g-sec').forEach(s => io.observe(s));
   }
 
-  root.addEventListener('click', e => {
-    const a = e.target.closest('a.dl[data-empty]');
-    if (a) { e.preventDefault(); toast('رابط ملف الترجمة لسا ما انضاف. أضفه في data.js'); }
-  });
-
   const likeBtn = $('#like-btn');
   const paintLike = () => {
     const on = Likes.has(g.id);
@@ -939,11 +1040,40 @@ function initGame() {
     likeBtn.setAttribute('aria-pressed', on);
     $('#like-count').textContent = likeCount(g).toLocaleString('en');
   };
+
+  root.addEventListener('click', e => {
+    const emptyA = e.target.closest('a.dl[data-empty]');
+    if (emptyA) {
+      e.preventDefault();
+      toast('رابط ملف الترجمة لسا ما انضاف. أضفه في data.js');
+      return;
+    }
+    const dlA = e.target.closest('a.dl');
+    if (dlA) {
+      Downloads.add(g.id);
+      const dlEl = $('#dl-count');
+      if (dlEl) dlEl.textContent = fmt(downloadCount(g));
+
+      if (!Likes.has(g.id)) {
+        Likes.add(g.id);
+        paintLike();
+      }
+      toast('بدأ التحميل، وتمت إضافة الترجمة للمفضلة ❤️');
+    }
+  });
+
   likeBtn.addEventListener('click', () => {
     toast(Likes.toggle(g.id) ? 'انضافت لمفضلتك' : 'انشالت من مفضلتك');
     paintLike();
   });
   paintLike();
+
+  // جلب العداد السحابي العام المشترك لجميع الزوار في الخلفية
+  Downloads.fetchGlobal(g.id, () => {
+    const dlEl = $('#dl-count');
+    if (dlEl) dlEl.textContent = fmt(downloadCount(g));
+  });
+  Likes.fetchGlobal(g.id, paintLike);
 
   $('#share-btn').addEventListener('click', async () => {
     const url = location.href.split('#')[0];
@@ -985,72 +1115,6 @@ function initLightbox(images) {
   });
 }
 
-/* =========================================================
-   لوحة إضافة ترجمة (تولّد الكود اللي تنسخه في data.js)
-   ========================================================= */
-function initAdd() {
-  const form = $('#add-form');
-  $('#f-publisher').innerHTML = PUBLISHERS.map(p => `<option value="${esc(p.id)}">${esc(p.name)} — ${esc(p.en)}</option>`).join('');
-  $('#genres').innerHTML = [...new Set(GAMES.map(g => g.genre))].map(g => `<option value="${esc(g)}">`).join('');
-  $('#f-date').value = new Date().toISOString().slice(0, 10);
-
-  const lines = v => v.split('\n').map(s => s.trim()).filter(Boolean);
-  const reqKeys = ['os', 'cpu', 'ram', 'gpu', 'dx', 'storage'];
-
-  function build() {
-    const v = id => ($('#f-' + id)?.value || '').trim();
-    const g = {
-      id: v('id') || 'new-game',
-      title: v('title') || 'اسم اللعبة',
-      publisher: v('publisher'),
-      genre: v('genre') || 'أكشن',
-      version: v('version') || '1.0',
-      date: v('date'),
-      downloads: +v('downloads') || 0,
-      likes: +v('likes') || 0,
-      progress: Math.min(100, Math.max(0, +(v('progress') || 100))),
-      desc: v('desc')
-    };
-    if (v('cover')) g.cover = v('cover');
-    g.about = lines(v('about'));
-    g.features = lines(v('features'));
-    if (v('video')) g.video = v('video');
-    const imgs = lines(v('images'));
-    if (imgs.length) g.images = imgs;
-    g.files = [{ name: 'ملف الترجمة العربية', version: g.version, size: v('filesize'), url: v('url'), main: true }];
-    lines(v('extra')).forEach(l => {
-      const [name, size, url] = l.split('|').map(s => (s || '').trim());
-      if (name) g.files.push({ name, size: size || '', url: url || '' });
-    });
-    const min = {}, rec = {};
-    reqKeys.forEach(k => { if (v('min-' + k)) min[k] = v('min-' + k); if (v('rec-' + k)) rec[k] = v('rec-' + k); });
-    if (Object.keys(min).length || Object.keys(rec).length) g.req = { min, rec };
-    g.tags = v('tags').split(/[,،]/).map(s => s.trim()).filter(Boolean);
-    return g;
-  }
-
-  function render() {
-    const g = build();
-    $('#id-warn').hidden = !GAMES.some(x => x.id === g.id);
-    $('#preview').innerHTML = cardHTML(g);
-    $('#output').value = JSON.stringify(g, null, 2) + ',';
-  }
-
-  $('#f-id').addEventListener('input', e => {
-    e.target.value = e.target.value.toLowerCase().replace(/[^a-z0-9-]+/g, '-').replace(/^-+/, '');
-  });
-  form.addEventListener('input', render);
-  form.addEventListener('submit', e => e.preventDefault());
-  $('#copy').addEventListener('click', async () => {
-    const out = $('#output');
-    try { await navigator.clipboard.writeText(out.value); }
-    catch { out.select(); document.execCommand('copy'); }
-    toast('تم نسخ الكود. الصقه داخل GAMES في data.js');
-  });
-  $('#reset').addEventListener('click', () => { form.reset(); $('#f-date').value = new Date().toISOString().slice(0, 10); render(); });
-  render();
-  bindReveal();
-}
 
 /* =========================================================
    عن المشروع / التواصل
@@ -1079,13 +1143,137 @@ function initAbout() {
 
   $('#ab-games').dataset.count = GAMES.length;
   $('#ab-pubs').dataset.count = new Set(GAMES.map(g => g.publisher)).size;
-  $('#ab-dl').dataset.count = GAMES.reduce((s, g) => s + (g.downloads || 0), 0);
+  $('#ab-dl').dataset.count = GAMES.reduce((s, g) => s + downloadCount(g), 0);
   typeDialog($('#about-dialog .dialog-text'));
   bindReveal();
+}
+
+/* ---------- المزامنة التلقائية مع GitHub للألعاب الجديدة ---------- */
+function parseGameFromVersion(rawText, folderName, filesInFolder = []) {
+  const get = (re, d = '') => (rawText.match(re)?.[1] || d).trim();
+  const getList = re => (rawText.match(re)?.[1] || '').split(',').map(s => s.trim()).filter(Boolean);
+
+  const title = get(/Game-Name\s*:\s*"([^"]+)"/, folderName);
+  const company = get(/Company\s*:\s*"([^"]+)"/, 'Rockstar Games');
+  const version = get(/Version\s*:\s*"([^"]+)"/, '1.0').replace(/^[Vv]/, '');
+  const date = get(/Release\s*:\s*"([^"]+)"/, new Date().toISOString().slice(0, 10)).replace(/\//g, '-');
+  const progress = parseInt(get(/Prossing\s*:\s*"([^"]+)"/, '100'), 10) || 100;
+  const tags = getList(/Tags\s*:\s*\{([^}]+)\}/);
+  const aboutText = get(/About-Translation\s*:\s*"([^"]+)"/, '');
+  const desc = aboutText.length > 130 ? aboutText.slice(0, 127) + '...' : aboutText;
+  const features = getList(/Incloud\s*:\s*\{([^}]+)\}/);
+
+  const compLow = company.toLowerCase();
+  const pub = PUBLISHERS.find(p => p.id === compLow || p.name === company || p.en.toLowerCase() === compLow || compLow.includes(p.id))?.id || 'indie';
+
+  const parseReq = raw => {
+    if (!raw) return { os: '—', cpu: '—', ram: '—', gpu: '—', dx: '—', storage: '—' };
+    const field = key => raw.match(new RegExp(`${key}\\s*:\\s*"([^"]+)"`))?.[1] || '—';
+    return { os: field('OS'), cpu: field('CPU'), ram: field('RAM'), gpu: field('GPU'), dx: field('DX'), storage: field('Storage') };
+  };
+  const minRaw = rawText.match(/Requirements-Min\s*:\s*\{([^}]+)\}/)?.[1];
+  const recRaw = rawText.match(/Requirements-Rec\s*:\s*\{([^}]+)\}/)?.[1];
+
+  let genre = 'عالم مفتوح';
+  for (const g of ['رعب', 'سباق', 'أكشن', 'مغامرات', 'تقمص أدوار', 'استراتيجية', 'بقاء', 'ألغاز', 'رياضة']) {
+    if (tags.includes(g)) { genre = g; break; }
+  }
+
+  const id = folderName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+  // البحث عن ملف الغلاف وملف التحميل
+  const coverObj = filesInFolder.find(f => /\.(jpg|jpeg|png|webp)$/i.test(f.name));
+  const coverUrl = coverObj ? `games/${folderName}/${coverObj.name}` : `games/${folderName}/${folderName}.jpg`;
+
+  const zipObj = filesInFolder.find(f => /\.(zip|rar|7z)$/i.test(f.name));
+  const zipUrl = zipObj ? `games/${folderName}/${zipObj.name}` : `games/${folderName}/${folderName}.zip`;
+  let zipSize = '';
+  if (zipObj && zipObj.size) {
+    zipSize = zipObj.size >= 1048576 ? (zipObj.size / 1048576).toFixed(1) + ' MB' : Math.round(zipObj.size / 1024) + ' KB';
+  }
+
+  return {
+    id,
+    title,
+    publisher: pub,
+    genre,
+    version,
+    date,
+    downloads: 0,
+    likes: 0,
+    progress,
+    cover: coverUrl,
+    desc,
+    about: [aboutText],
+    features,
+    video: '',
+    images: [],
+    files: [
+      {
+        name: 'ملف الترجمة العربية',
+        version,
+        size: zipSize,
+        url: zipUrl,
+        note: 'متوافق مع نسخة الكمبيوتر (PC).',
+        main: true
+      }
+    ],
+    req: { min: parseReq(minRaw), rec: parseReq(recRaw) },
+    changelog: [{ version, date, notes: [`الإصدار الأولي للترجمة بنسبة اكتمال ${progress}%`] }],
+    tags
+  };
+}
+
+async function syncGamesFromGitHub(onNewGamesFound) {
+  let owner = '', repo = '';
+  if (SITE.githubRepo && SITE.githubRepo.includes('/')) {
+    [owner, repo] = SITE.githubRepo.trim().split('/');
+  } else if (location.hostname.endsWith('.github.io')) {
+    owner = location.hostname.split('.')[0];
+    const segs = location.pathname.split('/').filter(Boolean);
+    if (segs.length) repo = segs[0];
+  }
+  if (!owner || !repo) return;
+
+  try {
+    const res = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/games`);
+    if (!res.ok) return;
+    const contents = await res.json();
+    if (!Array.isArray(contents)) return;
+
+    const dirs = contents.filter(item => item.type === 'dir');
+    let hasNew = false;
+
+    for (const dir of dirs) {
+      const folderId = dir.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      if (GAMES.some(g => g.id === folderId)) continue;
+
+      try {
+        const [vRes, fRes] = await Promise.all([
+          fetch(`games/${dir.name}/Version.txt`),
+          fetch(`https://api.github.com/repos/${owner}/${repo}/contents/games/${dir.name}`)
+        ]);
+        if (!vRes.ok) continue;
+        const vText = await vRes.text();
+        const fList = fRes.ok ? await fRes.json() : [];
+        const newGame = parseGameFromVersion(vText, dir.name, Array.isArray(fList) ? fList : []);
+        if (newGame) {
+          GAMES.push(newGame);
+          hasNew = true;
+        }
+      } catch (err) {}
+    }
+
+    if (hasNew && typeof onNewGamesFound === 'function') {
+      onNewGamesFound();
+    }
+  } catch (e) {}
 }
 
 /* ---------- تشغيل ---------- */
 renderChrome();
 paintIcons();
-({ index: initHome, browse: initBrowse, game: initGame, add: initAdd, about: initAbout })[PAGE]?.();
+const initPage = () => ({ index: initHome, browse: initBrowse, game: initGame, about: initAbout })[PAGE]?.();
+initPage();
 initLogoImage();
+syncGamesFromGitHub(initPage);
