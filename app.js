@@ -433,6 +433,7 @@ function renderChrome() {
     ['index.html', 'الرئيسية', PAGE === 'index'],
     ['browse.html', 'المكتبة', PAGE === 'browse' && status !== 'wip' && !liked],
     ['browse.html?status=wip', 'ورشة الترجمة', PAGE === 'browse' && status === 'wip'],
+    ['live.html', 'المترجم المباشر', PAGE === 'live'],
     ['about.html', 'عن المشروع', PAGE === 'about']
   ];
 
@@ -442,7 +443,7 @@ function renderChrome() {
       ${logoLink()}
       <nav class="nav" id="nav" aria-label="القائمة الرئيسية">
         ${NAV.map(([href, label, on], i) => `<a href="${href}" class="${on ? 'active' : ''}"${on ? ' aria-current="page"' : ''}><span class="cur">${icon('cursor')}</span><span class="nav-no">${pad(i + 1)}</span>${label}</a>`).join('')}
-        <a href="about.html#contact" class="nav-mobile"><span class="nav-no">05</span>تطوّع معنا</a>
+        <a href="about.html#contact" class="nav-mobile"><span class="nav-no">${pad(NAV.length + 1)}</span>تطوّع معنا</a>
       </nav>
       <div class="top-actions">
         <button class="search-trigger" data-open-search aria-label="بحث">${icon('search')}<span>ابحث عن لعبة</span><kbd>/</kbd></button>
@@ -484,6 +485,7 @@ function renderChrome() {
           <a href="browse.html?status=done">ترجمات مكتملة</a>
           <a href="browse.html?status=wip">ورشة الترجمة</a>
           <a href="browse.html?liked=1">مفضلتي</a>
+          <a href="live.html">المترجم المباشر</a>
         </div>
         <div>
           <h5>شركات</h5>
