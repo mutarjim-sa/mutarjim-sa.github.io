@@ -605,6 +605,102 @@ table.req { width: 100%; min-width: 460px; border-collapse: collapse; font-size:
 .lb-prev { top: calc(50% - 24px); right: 16px; }
 .lb-next { top: calc(50% - 24px); left: 16px; }
 
+/* ---------- 17. المترجم المباشر ---------- */
+.live-modes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px; }
+.live-mode { display: grid; gap: 10px; align-content: start; padding: 32px; text-align: start; background: var(--bg-1); box-shadow: inset 0 0 0 1px var(--line); }
+.live-mode:hover { box-shadow: inset 0 0 0 2px var(--fg); }
+.live-mode b { font: 400 12px var(--pix); color: var(--dim); }
+.live-mode h3 { font-size: clamp(22px, 2.4vw, 30px); }
+.live-mode p { color: var(--mute); }
+.live-mode .more { margin-top: 8px; }
+
+.live-phone { display: grid; gap: 20px; max-width: 760px; }
+.live-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.live-row > * { min-width: 0; }
+.live-code { flex: 1 1 160px; }
+.live-code input { font: 400 20px var(--pix); letter-spacing: .12em; text-align: center; direction: ltr; }
+.live-stage { position: relative; background: #000; box-shadow: inset 0 0 0 1px var(--line-2); touch-action: none; overflow: hidden; }
+.live-stage video { display: block; width: 100%; height: auto; }
+.live-empty { aspect-ratio: 16 / 9; display: grid; place-items: center; padding: 16px; color: #8a8a86; text-align: center; background: var(--d12) center / 8px 8px; background-color: #000; }
+.live-crop { position: absolute; cursor: move; box-shadow: 0 0 0 9999px rgba(0, 0, 0, .55); outline: 3px solid #f3f2ec; outline-offset: -3px; }
+.live-crop .lbl { position: absolute; top: -26px; right: -3px; padding: 0 8px; background: #f3f2ec; color: #000; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.live-crop .handle { position: absolute; left: -12px; bottom: -12px; width: 24px; height: 24px; background: #f3f2ec; cursor: nesw-resize; clip-path: var(--n1); }
+.live-status { min-height: 1.75em; font-size: 14px; color: var(--mute); }
+.live-status.err { color: var(--fg); font-weight: 600; }
+.live-status.err::before { content: '! '; font-family: var(--pix); }
+.live-en { direction: ltr; text-align: left; font: 14px/1.6 var(--mono); color: var(--mute); word-break: break-word; }
+.live-dialog .dialog-box { display: grid; gap: 14px; padding-block: 40px 44px; }
+.live-dialog .dialog-text::after { display: none; }
+.live-preview { max-width: 100%; margin-top: 12px; background: #fff; box-shadow: 0 0 0 1px var(--line-2); }
+.live-more summary { cursor: pointer; font-weight: 600; color: var(--mute); }
+.live-more summary:hover { color: var(--fg); }
+.live-more ol { margin-top: 10px; padding-inline-start: 20px; color: var(--mute); font-size: 15px; }
+
+/* شاشة التلفزيون: دايم أسود بغض النظر عن الوضع */
+/* كل شي في شكل الترجمة يجي من متغيرات --sub-* اللي يضبطها الجوال.
+   الأحجام بوحدة cqh (نسبة من ارتفاع الشاشة) عشان المعاينة الصغيرة في الجوال تطابق التلفزيون */
+.live-tv {
+  --sub-size: 6; --sub-margin: 3; --sub-font: var(--font); --sub-weight: 500;
+  --sub-color: #f3f2ec; --sub-box: #000; --sub-screen: #000;
+  --u: 1vh;
+  position: fixed; inset: 0; z-index: 200; display: flex; flex-direction: column;
+  container-type: size;
+  background: var(--sub-screen); color: #f3f2ec; cursor: none; --fg: #f3f2ec; --bg: var(--sub-box);
+}
+@supports (height: 1cqh) { .live-tv { --u: 1cqh; } }
+.live-tv-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 22px 32px; color: #8a8a86; cursor: default; }
+.live-tv-top .logo-word { font: 400 14px var(--pix); color: #f3f2ec; }
+.live-tv-code { display: flex; align-items: baseline; gap: 18px; font-size: clamp(15px, 1.8vw, 22px); }
+.live-tv-code b { font: 400 clamp(28px, 5vw, 72px)/1 var(--pix); color: #f3f2ec; letter-spacing: .08em; white-space: nowrap; direction: ltr; }
+
+.live-tv-stage {
+  flex: 1; min-height: 0; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  gap: calc(var(--u) * 2.4);
+  padding: calc(var(--u) * var(--sub-margin) + 4px) calc(var(--u) * var(--sub-margin) * 1.6 + 8px);
+  font-family: var(--sub-font);
+}
+.live-tv[data-pos="middle"] .live-tv-stage { justify-content: center; }
+.live-tv[data-pos="top"] .live-tv-stage { flex-direction: column-reverse; }
+.live-tv-hist { display: flex; flex-direction: column; gap: calc(var(--u) * 1.2); font-size: calc(var(--u) * var(--sub-size) * .5); color: color-mix(in srgb, var(--sub-color) 40%, var(--sub-screen)); }
+.live-tv[data-pos="top"] .live-tv-hist { flex-direction: column-reverse; }
+.live-tv[data-hist="0"] .live-tv-hist { display: none; }
+.live-tv[data-hist="1"] .live-tv-hist p:nth-last-child(n + 2),
+.live-tv[data-hist="2"] .live-tv-hist p:nth-last-child(n + 3) { display: none; }
+.live-tv[data-align="center"] .live-tv-stage { text-align: center; }
+
+.live-tv .dialog { margin: 0; }
+.live-tv .dialog-name { font-family: var(--font); }
+.live-tv[data-label="false"] .dialog-name { display: none; }
+.live-tv .dialog-box { padding: .55em .8em .6em; font-size: calc(var(--u) * var(--sub-size)); background: var(--sub-box); }
+.live-tv[data-box="bar"] .dialog-box { box-shadow: none; clip-path: none; }
+.live-tv[data-box="none"] .dialog-box { box-shadow: none; clip-path: none; background: none; padding-inline: 0; }
+.live-tv .dialog-text { max-width: none; min-height: 1.5em; font-size: 1em; font-weight: var(--sub-weight); line-height: 1.5; color: var(--sub-color); }
+.live-tv[data-outline="true"] .dialog-text,
+.live-tv[data-outline="true"] .live-tv-hist { -webkit-text-stroke: .045em #000; paint-order: stroke fill; text-shadow: 0 .04em .08em #000; }
+.live-tv .dialog-text::after { display: none; }
+.live-tv .dialog-text.flash { animation: blink .18s steps(1) 2; }
+.live-tv-en { display: none; margin-top: .3em; direction: ltr; font: 400 .42em/1.5 var(--mono); color: color-mix(in srgb, var(--sub-color) 60%, var(--sub-box)); }
+.live-tv[data-align="start"] .live-tv-en { text-align: right; }
+.live-tv[data-en="true"] .live-tv-en { display: block; }
+
+/* معاينة التلفزيون داخل الجوال */
+.live-style-body { display: grid; gap: 22px; margin-top: 14px; }
+.live-tv.mini { position: relative; inset: auto; z-index: auto; width: 100%; aspect-ratio: 16 / 9; cursor: default; box-shadow: 0 0 0 1px var(--line-2); }
+.live-tv.mini .dialog-name { top: -10px; right: 12px; padding: 0 8px; font-size: 10px; }
+.live-tv.mini .dialog-box { box-shadow: inset 0 0 0 1px var(--fg), inset 0 0 0 3px var(--bg), inset 0 0 0 4px var(--fg); }
+.live-tv.mini[data-box="bar"] .dialog-box, .live-tv.mini[data-box="none"] .dialog-box { box-shadow: none; }
+.live-field { display: grid; gap: 8px; font-size: 13px; font-weight: 500; color: var(--mute); }
+.live-val { font: 400 11px var(--pix); color: var(--fg); }
+.live-style input[type="range"] { height: auto; padding: 0; box-shadow: none; background: none; accent-color: var(--fg); }
+.live-swatches { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.live-swatches button { width: 34px; height: 34px; box-shadow: inset 0 0 0 1px var(--line-2); }
+.live-swatches button.on { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--fg); }
+.live-swatches input[type="color"] { width: 46px; height: 34px; padding: 2px; border: 0; background: var(--bg-1); box-shadow: inset 0 0 0 1px var(--line-2); cursor: pointer; }
+.live-checks { display: grid; gap: 10px; }
+.live-check { display: flex !important; align-items: center; gap: 10px !important; font-size: 15px !important; color: var(--fg-2) !important; cursor: pointer; }
+.live-check input { width: 18px !important; height: 18px !important; padding: 0 !important; box-shadow: none !important; accent-color: var(--fg); }
+
 /* ---------- 16. الشاشات المتوسطة والجوال ---------- */
 @media (max-width: 1180px) {
   .search-trigger { min-width: 0; width: 40px; padding: 0; justify-content: center; }
@@ -706,6 +802,9 @@ table.req { width: 100%; min-width: 460px; border-collapse: collapse; font-size:
   .req-grid { grid-template-columns: 76px minmax(0, 1fr) minmax(0, 1fr); }
   .footer-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .lightbox { padding: 72px 12px; }
+  .live-modes { grid-template-columns: minmax(0, 1fr); }
+  .live-mode { padding: 24px 20px; }
+  .live-tv-top { padding: 16px 20px; }
 }
 
 @media (hover: none) {
