@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- بانر التطبيق في شاشة التلفزيون: أقواس الشعار البكسلية وسطر ترجمة -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="320dp"
+    android:height="180dp"
+    android:viewportWidth="320"
+    android:viewportHeight="180">
+    <path android:fillColor="#000000" android:pathData="M0,0h320v180H0z" />
+    <!-- القوس الأيسر -->
+    <path android:fillColor="#F3F2EC" android:pathData="M60,40h30v10H60zM60,50h10v80H60zM60,130h30v10H60z" />
+    <!-- القوس الأيمن -->
+    <path android:fillColor="#F3F2EC" android:pathData="M230,40h30v10H230zM250,50h10v80H250zM230,130h30v10H230z" />
+    <!-- سطر الترجمة -->
+    <path android:fillColor="#F3F2EC" android:pathData="M100,82h120v14H100z" />
+    <path android:fillColor="#8A8A86" android:pathData="M120,106h80v8H120z" />
+</vector>

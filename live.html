@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>المترجم المباشر | مترجم</title>
-  <meta name="description" content="مترجم مباشر: الجوال يقرأ ترجمة اللعبة الإنجليزية من شاشة التلفزيون ويعرضها بالعربي على التلفزيون.">
+  <meta name="description" content="مترجم مباشر: يقرأ ترجمة اللعبة الإنجليزية من الشاشة ويعرضها بالعربي، على التلفزيون أو الجوال أو فوق اللعبة نفسها.">
   <meta name="theme-color" content="#000000">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script>try{var t=localStorage.getItem('mutarjim-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
@@ -22,61 +22,90 @@
     <div class="container">
       <nav class="crumbs" aria-label="مسار الصفحة"><a href="index.html">الرئيسية</a><span data-icon="chevL"></span><span>المترجم المباشر</span></nav>
       <div class="page-head-row"><h1>المترجم المباشر</h1><span class="count">BETA</span></div>
-      <p>اللعبة مو مترجمة؟ جوالك يقرأ الترجمة الإنجليزية من شاشة التلفزيون ويترجمها، والتلفزيون يعرضها بالعربي. بدون أي تعديل على الجهاز أو اللعبة.</p>
+      <p>اللعبة مو مترجمة؟ المترجم يقرأ الترجمة الإنجليزية من الشاشة ويعرضها بالعربي. بدون أي تعديل على الجهاز أو اللعبة.</p>
     </div>
   </section>
 
-  <!-- اختيار الجهاز -->
+  <!-- اختيار الطريقة -->
   <section class="section container" id="live-home">
     <header class="sec-head">
-      <div class="sec-title"><span class="sec-no pix">01</span><h2>وش هذا الجهاز؟</h2></div>
-      <p>افتح هذي الصفحة في الجهازين: التلفزيون أول، بعدين الجوال.</p>
+      <div class="sec-title"><span class="sec-no pix">01</span><h2>اختر طريقتك</h2></div>
+      <p>كل طريقة تناسب جهاز مختلف. ما تحتاج كلها، اختر وحدة.</p>
     </header>
     <div class="live-modes">
-      <button class="live-mode" id="go-tv" type="button">
-        <b>TV</b>
-        <h3>شاشة التلفزيون</h3>
-        <p>افتحها في متصفح التلفزيون. تطلع لك رمز من 8 أرقام يصلح لاتصال واحد، وبعدها تعرض الترجمة العربية بس.</p>
-        <span class="more">تشغيل كشاشة<span data-icon="arrowL"></span></span>
-      </button>
       <button class="live-mode" id="go-phone" type="button">
-        <b>CAM</b>
-        <h3>الجوال (الكاميرا)</h3>
-        <p>حط جوالك على حامل قدام الشاشة. يقرأ الترجمة الإنجليزية ويرسلها مترجمة للتلفزيون.</p>
-        <span class="more">تشغيل كجوال<span data-icon="arrowL"></span></span>
+        <b>01 · PHONE</b>
+        <h3>الجوال بس</h3>
+        <p>أسهل طريقة وتشتغل على أي تلفزيون. حط الجوال على حامل بينك وبين التلفزيون: الكاميرا الخلفية تقرأ الشاشة، والترجمة تطلع لك على شاشة الجوال.</p>
+        <span class="more">ابدأ بالجوال<span data-icon="arrowL"></span></span>
       </button>
+      <button class="live-mode" id="go-pc" type="button">
+        <b>02 · PC</b>
+        <h3>الترجمة فوق اللعبة</h3>
+        <p>تحتاج لابتوب أو كمبيوتر. توصله بكابتشر كارد أو تشغّل PS Remote Play، والترجمة تطلع فوق اللعبة نفسها. وصّل اللابتوب بالتلفزيون وتلعب عليه.</p>
+        <span class="more">ابدأ بالكمبيوتر<span data-icon="arrowL"></span></span>
+      </button>
+      <button class="live-mode" id="go-tv" type="button">
+        <b>03 · SCREEN</b>
+        <h3>شاشة عرض ثانية</h3>
+        <p>لو عندك آيباد أو لابتوب جنب التلفزيون، أو تلفزيون فيه Multi View. افتحها فيه وتطلع رمز، والجوال يرسل له الترجمة.</p>
+        <span class="more">تشغيل كشاشة عرض<span data-icon="arrowL"></span></span>
+      </button>
+    </div>
+
+    <!-- تطبيق التلفزيون -->
+    <div class="live-tvapp" id="tv-app">
+      <div class="live-tvapp-head">
+        <b class="pix">GOOGLE TV · ANDROID TV</b>
+        <h3>الترجمة فوق اللعبة على التلفزيون نفسه</h3>
+        <p>إذا تلفزيونك بنظام Google TV أو Android TV (مثل سوني BRAVIA)، ثبّت تطبيق «مترجم TV» مرة وحدة. التطبيق يفتح هذي الصفحة بخلفية شفافة فوق صورة السوني، والجوال يقرأ الشاشة ويرسل الترجمة. مجاني، وكل شي من موقعنا.</p>
+        <a class="btn btn-solid" id="tv-apk" href="#">تحميل تطبيق التلفزيون (APK)</a>
+      </div>
+      <ol class="live-steps">
+        <li><b>ثبّت التطبيق:</b> حمّل الملف على فلاش، وركّبه في التلفزيون، وافتحه من مدير الملفات. إذا سألك، اسمح بتثبيت التطبيقات من مصادر غير معروفة.</li>
+        <li><b>اسمح بالعرض فوق التطبيقات:</b> افتح «مترجم TV» واضغط «السماح بالعرض فوق التطبيقات»، وفعّلها للتطبيق.</li>
+        <li><b>شغّله:</b> اضغط «تشغيل الترجمة فوق الشاشة»، وبعدين حوّل التلفزيون على مدخل السوني (HDMI). بيطلع رمز صغير في الزاوية.</li>
+        <li><b>الجوال:</b> افتح «الجوال بس» هنا، وشغّل الكاميرا، ومن «إرسال الترجمة للتلفزيون» اكتب الرمز. خل مكان الترجمة «فوق» عشان ما تغطي الإنجليزي اللي تقراه الكاميرا.</li>
+      </ol>
     </div>
     <div class="notice">
       <div>
-        <b>تبي تشوف اللعبة والترجمة مع بعض؟</b>
-        <span>استخدم ميزة Multi View في التلفزيون: السوني بجهة، والمتصفح بالجهة الثانية. وإذا ما يدعمها تلفزيونك، اعرض صفحة الشاشة على آيباد أو لابتوب جنبه.</span>
+        <b>ما تدري وش تختار؟</b>
+        <span>عندك جوال وحامل بس؟ اختر «الجوال بس». تبي الترجمة على شاشة اللعبة نفسها؟ اختر «الترجمة فوق اللعبة». تلفزيونك يقسم الشاشة أو عندك جهاز ثاني؟ افتح «شاشة عرض ثانية» فيه، واستخدم الجوال كقارئ.</span>
       </div>
     </div>
   </section>
 
-  <!-- الجوال -->
-  <section class="section container" id="live-phone" hidden>
+  <!-- القارئ: الجوال أو الكمبيوتر -->
+  <section class="section container" id="live-reader" data-kind="phone" hidden>
     <header class="sec-head">
-      <div class="sec-title"><span class="sec-no pix">02</span><h2>الجوال</h2></div>
-      <p>اكتب الرقم اللي طالع على التلفزيون، شغّل الكاميرا، وحط الترجمة داخل المربع.</p>
+      <div class="sec-title"><span class="sec-no pix">02</span><h2 id="reader-title">الجوال</h2></div>
+      <p id="reader-sub">شغّل الكاميرا، وحط الترجمة الإنجليزية داخل المربع.</p>
     </header>
 
     <div class="live-phone">
-      <div class="live-row">
-        <label class="field live-code"><span class="sr-only">رقم التلفزيون</span><input id="code" inputmode="numeric" maxlength="9" placeholder="0000 0000" autocomplete="off"></label>
-        <button class="btn btn-solid" id="connect" type="button">اتصال</button>
-        <span class="tag tag-wip" id="conn-state">غير متصل</span>
+      <!-- مصدر الصورة -->
+      <div class="live-row only-phone">
+        <button class="btn btn-line" id="cam" type="button">تشغيل الكاميرا</button>
+      </div>
+      <div class="live-row only-pc">
+        <button class="btn btn-line" id="src-cap" type="button">كابتشر كارد</button>
+        <button class="btn btn-line" id="src-screen" type="button">نافذة Remote Play</button>
+      </div>
+      <div class="row-2 form only-pc" id="cap-devices" hidden>
+        <label>جهاز الصورة<select id="cap-video"></select></label>
+        <label>صوت اللعبة<select id="cap-audio"></select></label>
       </div>
 
       <div class="live-stage" id="stage">
-        <div class="live-empty" id="stage-empty">اضغط «تشغيل الكاميرا» ووجّهها على التلفزيون</div>
+        <div class="live-empty" id="stage-empty">اختر مصدر الصورة عشان تبدأ</div>
         <video id="video" playsinline muted hidden></video>
         <div class="live-crop" id="crop" hidden><span class="lbl">حط الترجمة داخل المربع</span><span class="handle" id="handle"></span></div>
       </div>
 
       <div class="live-row">
-        <button class="btn btn-line" id="cam" type="button">تشغيل الكاميرا</button>
         <button class="btn btn-solid" id="run" type="button" disabled>ابدأ الترجمة المباشرة</button>
+        <button class="btn btn-line" id="show-local" type="button">اعرض الترجمة على الجوال</button>
         <span class="tag tag-wip" id="ocr-state">القارئ ما اشتغل</span>
       </div>
       <div class="live-status" id="status" role="status"></div>
@@ -89,10 +118,21 @@
         </div>
       </div>
 
+      <!-- إرسال لشاشة ثانية (اختياري) -->
+      <details class="live-more only-phone" id="tv-link">
+        <summary>إرسال الترجمة للتلفزيون أو لشاشة ثانية</summary>
+        <p class="live-hint">شغّل تطبيق «مترجم TV» في التلفزيون، أو افتح «شاشة عرض ثانية» في أي جهاز، واكتب الرمز اللي يطلع لك هنا. إذا الترجمة تطلع فوق اللعبة، خل مكانها «فوق» من «شكل الترجمة» عشان ما تغطي الإنجليزي اللي تقراه الكاميرا.</p>
+        <div class="live-row">
+          <label class="field live-code"><span class="sr-only">رمز الشاشة</span><input id="code" inputmode="numeric" maxlength="9" placeholder="0000 0000" autocomplete="off"></label>
+          <button class="btn btn-solid" id="connect" type="button">اتصال</button>
+          <span class="tag tag-wip" id="conn-state">غير متصل</span>
+        </div>
+      </details>
+
       <details class="live-more live-style" open>
-        <summary>شكل الترجمة على التلفزيون</summary>
+        <summary>شكل الترجمة</summary>
         <div class="live-style-body">
-          <div class="live-tv mini" id="preview-tv" aria-label="معاينة شاشة التلفزيون">
+          <div class="live-tv mini" id="preview-tv" aria-label="معاينة الترجمة">
             <div class="live-tv-stage">
               <div class="live-tv-hist"><p>أين كنت؟ لقد انتظرتُ لمدة ساعة!</p></div>
               <div class="dialog live-tv-sub">
@@ -185,10 +225,11 @@
               <label class="live-check"><input type="checkbox" id="s-outline">حد أسود حول الحروف</label>
               <label class="live-check"><input type="checkbox" id="s-en">اعرض الجملة الإنجليزية تحت</label>
               <label class="live-check"><input type="checkbox" id="s-label">اعرض كلمة «الترجمة» فوق الصندوق</label>
+              <label class="live-check only-pc"><input type="checkbox" id="s-cover">غطِّ الترجمة الإنجليزية الأصلية في اللعبة</label>
             </div>
             <div class="live-row">
               <button type="button" class="btn btn-line btn-sm" id="s-reset">رجّع الافتراضي</button>
-              <span class="live-status" id="s-sync">التغييرات تنحفظ في جوالك وتوصل للتلفزيون أول ما تتصل.</span>
+              <span class="live-status">التغييرات تنحفظ في جهازك، وتوصل للشاشة الثانية أول ما تتصل.</span>
             </div>
           </form>
         </div>
@@ -202,24 +243,40 @@
         <summary>نصائح لدقة أعلى</summary>
         <ol>
           <li>شغّل الترجمة النصية (Subtitles) في إعدادات اللعبة وكبّر حجمها، وخل خلفيتها معتمة إذا فيه خيار.</li>
-          <li>ثبّت الجوال على حامل، وخل المربع على مكان الترجمة بس.</li>
-          <li>طفِّ الأنوار اللي تنعكس على الشاشة.</li>
+          <li class="only-phone">ثبّت الجوال على حامل، وخل المربع على مكان الترجمة بس.</li>
+          <li class="only-phone">طفِّ الأنوار اللي تنعكس على الشاشة.</li>
+          <li class="only-pc">بالكابتشر كارد: وصّل السوني بمدخل الكارد، والكارد باللابتوب، واللابتوب بالتلفزيون.</li>
+          <li class="only-pc">بـ Remote Play: شغّل تطبيق PS Remote Play الرسمي في الكمبيوتر، واختر نافذته لما يسألك المتصفح.</li>
         </ol>
       </details>
     </div>
   </section>
 
-  <!-- التلفزيون -->
+  <!-- الترجمة على نفس الجهاز: شاشة الجوال، أو فوق اللعبة في الكمبيوتر -->
+  <section class="live-tv live-local" id="live-local" hidden>
+    <video id="local-video" playsinline muted></video>
+    <div class="live-cover" id="local-cover" hidden></div>
+    <div class="live-tv-stage">
+      <div class="live-tv-hist"></div>
+      <div class="dialog live-tv-sub">
+        <span class="dialog-name">الترجمة</span>
+        <div class="dialog-box"><p class="dialog-text">ينتظر أول جملة…</p><p class="live-tv-en"></p></div>
+      </div>
+    </div>
+    <button class="live-exit" id="local-exit" type="button">خروج</button>
+  </section>
+
+  <!-- شاشة العرض الثانية -->
   <section class="live-tv" id="live-tv" hidden>
     <div class="live-tv-top">
       <span class="logo-word">MUTARJIM LIVE</span>
-      <span class="live-tv-code"><span id="tv-hint">اكتب هذا الرقم في الجوال</span><b id="tv-code">····</b></span>
+      <span class="live-tv-code"><span id="tv-hint">اكتب هذا الرمز في الجوال</span><b id="tv-code">····</b></span>
     </div>
     <div class="live-tv-stage">
-      <div class="live-tv-hist" id="tv-hist"></div>
+      <div class="live-tv-hist"></div>
       <div class="dialog live-tv-sub">
         <span class="dialog-name">الترجمة</span>
-        <div class="dialog-box"><p class="dialog-text" id="tv-subtitle"></p><p class="live-tv-en" id="tv-en"></p></div>
+        <div class="dialog-box"><p class="dialog-text"></p><p class="live-tv-en"></p></div>
       </div>
     </div>
   </section>
@@ -239,25 +296,26 @@
 
     function show(view) {
       $('live-home').hidden = view !== 'home';
-      $('live-phone').hidden = view !== 'phone';
+      $('live-reader').hidden = view !== 'phone' && view !== 'pc';
       $('live-tv').hidden = view !== 'tv';
-      document.body.classList.toggle('menu-open', view === 'tv');  // يقفل التمرير خلف شاشة التلفزيون
+      document.body.classList.toggle('menu-open', view === 'tv');  // يقفل التمرير خلف شاشة العرض
       try { history.replaceState(null, '', view === 'home' ? location.pathname : '#' + view); } catch (e) {}
-      if (view === 'phone') $('live-phone').scrollIntoView();
+      if (view === 'phone' || view === 'pc') $('live-reader').scrollIntoView();
     }
 
     async function keepAwake() {
       try { await navigator.wakeLock.request('screen'); } catch (e) {}
     }
 
-    /* ================= شكل الترجمة (مشترك بين الجوال والتلفزيون) ================= */
+    /* ================= شكل الترجمة (مشترك بين كل الشاشات) ================= */
     const STYLE_KEY = 'mutarjim-style';
     const STYLE_DEFAULT = {
       size: 6, font: 'readex', weight: '500', color: '#f3f2ec', boxColor: '#000000', screen: '#000000',
-      pos: 'bottom', align: 'start', box: 'dialog', hist: '3', margin: 3, outline: false, en: false, label: true
+      pos: 'bottom', align: 'start', box: 'dialog', hist: '3', margin: 3, outline: false, en: false, label: true, cover: false
     };
     const FONTS = { readex: "'Readex Pro'", cairo: "'Cairo'", tajawal: "'Tajawal'" };
     const PICK = { font: Object.keys(FONTS), weight: ['400', '500', '700'], pos: ['bottom', 'middle', 'top'], align: ['start', 'center'], box: ['dialog', 'bar', 'none'], hist: ['0', '1', '2', '3'] };
+    const FLAGS = ['outline', 'en', 'label', 'cover'];
 
     // يتحقق من كل قيمة (اللي يوصل من الجوال ما نثق فيه) ويرجّع الافتراضي لأي شي غلط
     function cleanStyle(raw) {
@@ -267,7 +325,7 @@
       if (num(r.margin, 0, 10) !== null) s.margin = num(r.margin, 0, 10);
       for (const k of ['color', 'boxColor', 'screen']) if (/^#[0-9a-f]{6}$/i.test(r[k])) s[k] = r[k];
       for (const k in PICK) if (PICK[k].includes(String(r[k]))) s[k] = String(r[k]);
-      for (const k of ['outline', 'en', 'label']) if (typeof r[k] === 'boolean') s[k] = r[k];
+      for (const k of FLAGS) if (typeof r[k] === 'boolean') s[k] = r[k];
       return s;
     }
     function loadStyle() {
@@ -285,13 +343,47 @@
       Object.assign(el.dataset, { pos: s.pos, align: s.align, box: s.box, hist: s.hist, outline: s.outline, en: s.en, label: s.label });
     }
 
-    /* ================= التلفزيون ================= */
-    function startTV() {
+    // يعرض جملة جديدة في أي شاشة ترجمة، ويحرّك القديمة لقائمة الجمل السابقة
+    function subRenderer(root) {
+      const sub = root.querySelector('.dialog-text'), en = root.querySelector('.live-tv-en'), histEl = root.querySelector('.live-tv-hist');
+      const hist = [];
+      let fresh = true;
+      return (text, english) => {
+        en.textContent = english || '';
+        if (!fresh && sub.textContent) {
+          hist.push(sub.textContent);
+          if (hist.length > 3) hist.shift();
+          histEl.replaceChildren(...hist.map(t => { const p = document.createElement('p'); p.textContent = t; return p; }));
+        }
+        fresh = false;
+        sub.textContent = text;
+        sub.classList.remove('flash'); void sub.offsetWidth; sub.classList.add('flash');
+      };
+    }
+
+    /* ================= شاشة العرض الثانية ================= */
+    // overlay = الصفحة مفتوحة داخل تطبيق «مترجم TV» فوق صورة السوني: خلفية شفافة، ورمز صغير في الزاوية
+    function startTV(overlay) {
       show('tv');
+      const tv = $('live-tv');
+      if (overlay) {
+        document.documentElement.classList.add('overlay');
+        tv.classList.add('is-overlay');
+        // نخلي الرابط #overlay عشان لو التطبيق أعاد تحميل الصفحة ترجع بنفس الوضع
+        try { history.replaceState(null, '', '#overlay'); } catch (e) {}
+      }
       keepAwake();
       document.addEventListener('visibilitychange', () => { if (!document.hidden) keepAwake(); });
-      const hist = [];
-      applyStyle($('live-tv'), loadStyle());
+      applyStyle(tv, loadStyle());
+      const render = subRenderer(tv);
+      // فوق اللعبة ما نخلي الصندوق معلّق: يختفي بعد 8 ثواني من آخر جملة
+      let hideTimer = null;
+      const showLine = (text, en) => {
+        render(text, en);
+        tv.classList.add('has-text');
+        clearTimeout(hideTimer);
+        if (overlay) hideTimer = setTimeout(() => tv.classList.remove('has-text'), 8000);
+      };
 
       // رمز من 8 أرقام يصلح لاتصال واحد بس: أول جوال يتصل ياخذه، وبعدها الرمز ينتهي،
       // ولما الجوال يطلع يتولّد رمز جديد
@@ -316,8 +408,9 @@
 
         peer.on('open', () => {
           if (used) return;
+          $('live-tv').classList.remove('paired');
           $('tv-code').textContent = code.slice(0, 4) + ' ' + code.slice(4);
-          $('tv-hint').textContent = 'اكتب هذا الرقم في الجوال';
+          $('tv-hint').textContent = 'اكتب هذا الرمز في الجوال';
         });
         peer.on('error', err => {
           if (err.type === 'unavailable-id') { restart(); return; }
@@ -331,6 +424,7 @@
             peer.disconnect();  // ينسحب من الوسيط: الرمز ما يقبل أي اتصال ثاني
             $('tv-code').textContent = '✓';
             $('tv-hint').textContent = 'الجوال متصل';
+            setTimeout(() => { if (!ended) $('live-tv').classList.add('paired'); }, 3000);
             lastSeen = Date.now();
             // الجوال يرسل نبضة كل 3 ثواني؛ لو اختفى 10 ثواني نعتبره طلع
             watch = setInterval(() => { if (Date.now() - lastSeen > 10000) { try { conn.close(); } catch (e) {} restart(); } }, 2000);
@@ -346,45 +440,47 @@
         });
       }
 
-      function showLine(text, en) {
-        const sub = $('tv-subtitle');
-        $('tv-en').textContent = en;
-        if (sub.textContent) {
-          hist.push(sub.textContent);
-          if (hist.length > 3) hist.shift();
-          $('tv-hist').replaceChildren(...hist.map(t => { const p = document.createElement('p'); p.textContent = t; return p; }));
-        }
-        sub.textContent = text;
-        sub.classList.remove('flash'); void sub.offsetWidth; sub.classList.add('flash');
-      }
-
       register();
     }
 
-    /* ================= الجوال ================= */
-    function startPhone() {
-      show('phone');
+    /* ================= القارئ (الجوال أو الكمبيوتر) ================= */
+    function startReader(kind) {
+      const isPC = kind === 'pc';
+      show(kind);
+      const reader = $('live-reader');
+      reader.dataset.kind = kind;
+      $('reader-title').textContent = isPC ? 'الترجمة فوق اللعبة' : 'الجوال بس';
+      $('reader-sub').textContent = isPC
+        ? 'اختر مصدر الصورة، وحط الترجمة الإنجليزية داخل المربع، وبعدها شغّل ملء الشاشة.'
+        : 'شغّل الكاميرا، وحط الترجمة الإنجليزية داخل المربع، وبعدها اعرض الترجمة على شاشة الجوال.';
+      $('show-local').textContent = isPC ? 'تشغيل ملء الشاشة مع الترجمة' : 'اعرض الترجمة على الجوال';
+      $('stage-empty').textContent = isPC ? 'اختر «كابتشر كارد» أو «نافذة Remote Play»' : 'اضغط «تشغيل الكاميرا» ووجّهها على التلفزيون';
+
       let peer = null, conn = null, stream = null, worker = null, running = false, timer = null, busy = false;
       let lastSent = '';
       // مربع القص كنسبة من حجم الفيديو
       const box = { x: 0.1, y: 0.68, w: 0.8, h: 0.2 };
-      try { Object.assign(box, JSON.parse(localStorage.getItem('mutarjim-crop') || '{}')); } catch (e) {}
+      try { Object.assign(box, JSON.parse(localStorage.getItem('mutarjim-crop-' + kind) || '{}')); } catch (e) {}
 
       const setStatus = (t, err) => { $('status').textContent = t; $('status').classList.toggle('err', !!err); };
       const setTag = (el, t, on) => { el.textContent = t; el.className = 'tag ' + (on ? 'tag-done' : 'tag-wip'); };
+      const showLocal = subRenderer($('live-local'));
 
       /* ---- شكل الترجمة ---- */
       let style = loadStyle(), sendTimer = null;
       const F = k => $('s-' + k);
+      const VALUES = ['size', 'margin', 'font', 'weight', 'color', 'boxColor', 'screen', 'pos', 'align', 'box', 'hist'];
       function fillForm() {
-        for (const k of ['size', 'margin', 'font', 'weight', 'color', 'boxColor', 'screen', 'pos', 'align', 'box', 'hist']) F(k).value = style[k];
-        for (const k of ['outline', 'en', 'label']) F(k).checked = style[k];
+        for (const k of VALUES) F(k).value = style[k];
+        for (const k of FLAGS) F(k).checked = style[k];
         showStyle();
       }
       function showStyle() {
         $('v-size').textContent = Math.round(style.size / STYLE_DEFAULT.size * 100) + '%';
         $('v-margin').textContent = style.margin;
         applyStyle($('preview-tv'), style);
+        applyStyle($('live-local'), style);
+        placeCover();
         document.querySelectorAll('.live-swatches button').forEach(b => {
           b.classList.toggle('on', style[b.parentElement.dataset.for.slice(2)] === b.dataset.c);
         });
@@ -395,8 +491,8 @@
       }
       function readForm() {
         const r = {};
-        for (const k of ['size', 'margin', 'font', 'weight', 'color', 'boxColor', 'screen', 'pos', 'align', 'box', 'hist']) r[k] = F(k).value;
-        for (const k of ['outline', 'en', 'label']) r[k] = F(k).checked;
+        for (const k of VALUES) r[k] = F(k).value;
+        for (const k of FLAGS) r[k] = F(k).checked;
         style = cleanStyle(r);
         saveStyle(style); showStyle(); sendStyle();
       }
@@ -408,10 +504,9 @@
         readForm();
       }));
       $('s-reset').onclick = () => { style = { ...STYLE_DEFAULT }; saveStyle(style); fillForm(); sendStyle(); };
-      fillForm();
 
-      /* ---- الاتصال بالتلفزيون ---- */
-      // الرمز يصلح مرة وحدة: لما ينقطع الاتصال لازم تكتب الرمز الجديد اللي يطلع على التلفزيون
+      /* ---- الاتصال بشاشة ثانية (اختياري) ---- */
+      // الرمز يصلح مرة وحدة: لما ينقطع الاتصال لازم تكتب الرمز الجديد اللي يطلع على الشاشة
       let beat = null;
       function ended(msg) {
         clearInterval(beat);
@@ -427,19 +522,19 @@
       });
 
       $('connect').onclick = () => {
-        if (conn) { const c = conn; ended('قطعت الاتصال. التلفزيون بيطلع رمز جديد.'); c.close(); return; }
+        if (conn) { const c = conn; ended('قطعت الاتصال. الشاشة بتطلع رمز جديد.'); c.close(); return; }
         const code = $('code').value.replace(/\D/g, '');
-        if (code.length !== 8) { setStatus('اكتب الرمز اللي طالع على التلفزيون (8 أرقام).', true); return; }
+        if (code.length !== 8) { setStatus('اكتب الرمز اللي طالع على الشاشة (8 أرقام).', true); return; }
         setTag($('conn-state'), 'يتصل…');
         const go = () => {
           const c = conn = peer.connect(PREFIX + code, { reliable: true });
           let opened = false;
           c.on('open', () => {
             opened = true;
-            // لو التلفزيون رفض (الرمز انستخدم) يقفل الاتصال فوراً
+            // لو الشاشة رفضت (الرمز انستخدم) تقفل الاتصال فوراً
             setTimeout(() => {
               if (!c.open) return;
-              setTag($('conn-state'), 'متصل بالتلفزيون', true); setStatus('');
+              setTag($('conn-state'), 'متصل بالشاشة', true); setStatus('');
               c.send({ style });
               $('code').disabled = true; $('connect').textContent = 'قطع الاتصال';
               beat = setInterval(() => { if (c.open) c.send({ ping: 1 }); }, 3000);
@@ -447,41 +542,93 @@
           });
           c.on('close', () => {
             if (conn !== c) return;
-            ended(opened ? 'انتهى الاتصال والرمز انتهى معه. اكتب الرمز الجديد اللي على التلفزيون.' : 'الرمز غلط أو انستخدم قبل.');
+            ended(opened ? 'انتهى الاتصال والرمز انتهى معه. اكتب الرمز الجديد اللي على الشاشة.' : 'الرمز غلط أو انستخدم قبل.');
           });
-          c.on('error', () => { if (conn === c) ended('فشل الاتصال. اكتب الرمز اللي على التلفزيون.'); });
+          c.on('error', () => { if (conn === c) ended('فشل الاتصال. اكتب الرمز اللي على الشاشة.'); });
         };
         if (peer && peer.open) go();
         else {
           peer = new Peer();
           peer.on('open', go);
           peer.on('error', err => {
-            ended(err.type === 'peer-unavailable' ? 'الرمز غلط أو انتهى. اكتب الرمز اللي طالع على التلفزيون الحين.' : 'مشكلة في الاتصال. تأكد من الإنترنت.');
+            ended(err.type === 'peer-unavailable' ? 'الرمز غلط أو انتهى. اكتب الرمز اللي طالع على الشاشة الحين.' : 'مشكلة في الاتصال. تأكد من الإنترنت.');
           });
         }
       };
 
-      /* ---- الكاميرا ---- */
-      $('cam').onclick = async () => {
-        if (stream) return;
-        try {
-          stream = await navigator.mediaDevices.getUserMedia({
-            video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false
-          });
-        } catch (e) {
-          setStatus(location.protocol !== 'https:' && location.hostname !== 'localhost'
-            ? 'الكاميرا تحتاج الموقع يكون https (ارفعه على GitHub Pages).'
-            : 'ما قدرت أفتح الكاميرا. اسمح للمتصفح يستخدمها.', true);
-          return;
-        }
+      /* ---- مصدر الصورة ---- */
+      function useStream(s, hasAudio) {
+        if (stream && stream !== s) stream.getTracks().forEach(t => t.stop());
+        stream = s;
         const v = $('video');
-        v.srcObject = stream; v.hidden = false; $('stage-empty').hidden = true;
-        await v.play().catch(() => {});
+        v.srcObject = s; v.hidden = false; $('stage-empty').hidden = true;
+        v.play().catch(() => {});
+        const lv = $('local-video');
+        lv.srcObject = s; lv.muted = !hasAudio;
         $('crop').hidden = false; placeCrop();
-        $('cam').textContent = 'الكاميرا شغالة'; $('cam').disabled = true;
         $('run').disabled = false;
+        s.getVideoTracks()[0].addEventListener('ended', () => {
+          if (stream !== s) return;
+          setStatus('انقطعت الصورة. اختر المصدر مرة ثانية.', true);
+          stopRun();
+        });
         keepAwake();
         loadOCR();
+      }
+      const cameraError = () => setStatus(location.protocol !== 'https:' && location.hostname !== 'localhost'
+        ? 'الكاميرا تحتاج الموقع يكون https (ارفعه على GitHub Pages).'
+        : 'ما قدرت أفتح المصدر. اسمح للمتصفح يستخدمه.', true);
+
+      $('cam').onclick = async () => {
+        try {
+          useStream(await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false
+          }), false);
+          $('cam').textContent = 'الكاميرا شغالة';
+        } catch (e) { cameraError(); }
+      };
+
+      // الكابتشر كارد يطلع للمتصفح كأنه كاميرا، وصوته كأنه مايك
+      async function openCapture() {
+        const vid = $('cap-video').value, aud = $('cap-audio').value;
+        try {
+          const v = await navigator.mediaDevices.getUserMedia({
+            video: { ...(vid ? { deviceId: { exact: vid } } : {}), width: { ideal: 1920 }, height: { ideal: 1080 }, frameRate: { ideal: 60 } }, audio: false
+          });
+          let tracks = v.getVideoTracks(), hasAudio = false;
+          if (aud) {
+            try {
+              const a = await navigator.mediaDevices.getUserMedia({ audio: { deviceId: { exact: aud }, echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
+              tracks = tracks.concat(a.getAudioTracks()); hasAudio = true;
+            } catch (e) { setStatus('ما قدرت أشغّل صوت اللعبة. الصورة شغالة بدون صوت.', true); }
+          }
+          useStream(new MediaStream(tracks), hasAudio);
+          await fillDevices(v.getVideoTracks()[0]);
+        } catch (e) { cameraError(); }
+      }
+      async function fillDevices(track) {
+        const list = await navigator.mediaDevices.enumerateDevices();
+        const cur = track.getSettings().deviceId;
+        const curDev = list.find(d => d.deviceId === cur);
+        const vSel = $('cap-video'), aSel = $('cap-audio'), prevAudio = aSel.value;
+        vSel.replaceChildren(...list.filter(d => d.kind === 'videoinput').map((d, i) => new Option(d.label || 'جهاز ' + (i + 1), d.deviceId, false, d.deviceId === cur)));
+        const audios = list.filter(d => d.kind === 'audioinput' && d.deviceId !== 'default' && d.deviceId !== 'communications');
+        aSel.replaceChildren(new Option('بدون صوت', ''), ...audios.map((d, i) => new Option(d.label || 'صوت ' + (i + 1), d.deviceId)));
+        // نختار صوت الكارد تلقائياً لو كان من نفس الجهاز
+        const match = curDev && audios.find(d => d.groupId && d.groupId === curDev.groupId);
+        aSel.value = prevAudio || (match ? match.deviceId : '');
+        $('cap-devices').hidden = false;
+      }
+      $('src-cap').onclick = openCapture;
+      $('cap-video').onchange = () => { $('cap-audio').value = ''; openCapture(); };
+      $('cap-audio').onchange = openCapture;
+
+      $('src-screen').onclick = async () => {
+        if (!navigator.mediaDevices.getDisplayMedia) { setStatus('هذا المتصفح ما يدعم مشاركة النوافذ. استخدم Chrome أو Edge في الكمبيوتر.', true); return; }
+        try {
+          useStream(await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: { ideal: 60 } }, audio: false }), false);
+          $('cap-devices').hidden = true;
+        } catch (e) { setStatus('ما اخترت نافذة. اضغط مرة ثانية واختر نافذة PS Remote Play.', true); }
       };
 
       async function loadOCR() {
@@ -497,6 +644,47 @@
           setStatus('ما قدرت أحمّل قارئ النصوص. تأكد من الإنترنت وحدّث الصفحة.', true);
         }
       }
+
+      /* ---- عرض الترجمة على نفس الجهاز ---- */
+      const local = $('live-local');
+      local.classList.toggle('with-video', isPC);
+      $('show-local').onclick = async () => {
+        if (isPC && !stream) { setStatus('اختر مصدر الصورة أول.', true); return; }
+        local.hidden = false;
+        document.body.classList.add('menu-open');
+        if (isPC) $('local-video').play().catch(() => {});
+        if (!running && !$('run').disabled) startRun();
+        placeCover();
+        keepAwake();
+        try { await local.requestFullscreen(); } catch (e) {}
+      };
+      function closeLocal() {
+        local.hidden = true;
+        document.body.classList.remove('menu-open');
+        if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+      }
+      $('local-exit').onclick = closeLocal;
+      document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && !local.hidden) closeLocal(); });
+      // زر الخروج يبان لما تلمس الشاشة أو تحرك الماوس، ويختفي بعد 3 ثواني
+      let exitTimer = null;
+      const wake = () => { local.classList.add('show-exit'); clearTimeout(exitTimer); exitTimer = setTimeout(() => local.classList.remove('show-exit'), 3000); };
+      local.addEventListener('pointermove', wake);
+      local.addEventListener('pointerdown', wake);
+
+      // يغطّي مكان الترجمة الإنجليزية في الفيديو (نفس مربع القص) عشان ما تتداخل مع العربي
+      function placeCover() {
+        const c = $('local-cover'), lv = $('local-video');
+        c.hidden = !(isPC && style.cover && lv.videoWidth);
+        if (c.hidden) return;
+        const W = local.clientWidth, H = local.clientHeight, s = Math.min(W / lv.videoWidth, H / lv.videoHeight);
+        const ox = (W - lv.videoWidth * s) / 2, oy = (H - lv.videoHeight * s) / 2;
+        Object.assign(c.style, {
+          left: ox + box.x * lv.videoWidth * s + 'px', top: oy + box.y * lv.videoHeight * s + 'px',
+          width: box.w * lv.videoWidth * s + 'px', height: box.h * lv.videoHeight * s + 'px'
+        });
+      }
+      window.addEventListener('resize', placeCover);
+      $('local-video').addEventListener('loadedmetadata', placeCover);
 
       /* ---- سحب وتكبير المربع ---- */
       function placeCrop() {
@@ -525,7 +713,7 @@
         }
         placeCrop();
       });
-      const endDrag = () => { if (!drag) return; drag = null; try { localStorage.setItem('mutarjim-crop', JSON.stringify(box)); } catch (e) {} };
+      const endDrag = () => { if (!drag) return; drag = null; try { localStorage.setItem('mutarjim-crop-' + kind, JSON.stringify(box)); } catch (e) {} };
       $('crop').addEventListener('pointerup', endDrag);
       $('crop').addEventListener('pointercancel', endDrag);
 
@@ -616,6 +804,7 @@
           $('last-en').textContent = en;
           const ar = await translate(en);
           $('last-ar').textContent = ar;
+          showLocal(ar, en);
           if (conn && conn.open) conn.send({ ar, en, at: Date.now() });
           setStatus('');
         } catch (e) {
@@ -625,23 +814,40 @@
         }
       }
 
-      $('run').onclick = () => {
-        running = !running;
-        if (running) {
-          if (!worker) setStatus('ينتظر القارئ يجهز…');
-          timer = setInterval(tick, TICK_MS);
-          $('run').textContent = 'إيقاف';
-        } else {
-          clearInterval(timer);
-          $('run').textContent = 'ابدأ الترجمة المباشرة';
-        }
-      };
+      function startRun() {
+        running = true;
+        if (!worker) setStatus('ينتظر القارئ يجهز…');
+        clearInterval(timer);
+        timer = setInterval(tick, TICK_MS);
+        $('run').textContent = 'إيقاف';
+      }
+      function stopRun() {
+        running = false;
+        clearInterval(timer);
+        $('run').textContent = 'ابدأ الترجمة المباشرة';
+      }
+      $('run').onclick = () => running ? stopRun() : startRun();
+
+      fillForm();
     }
 
-    $('go-tv').onclick = startTV;
-    $('go-phone').onclick = startPhone;
-    if (location.hash === '#tv') startTV();
-    else if (location.hash === '#phone') startPhone();
+    // رابط تحميل تطبيق التلفزيون من إصدارات المستودع نفسه على GitHub (يبنيه GitHub Actions تلقائياً)
+    (() => {
+      const host = location.hostname;
+      if (!host.endsWith('.github.io')) { $('tv-apk').href = 'https://github.com'; return; }
+      const owner = host.split('.')[0];
+      const first = location.pathname.split('/').filter(Boolean)[0];
+      const repo = first && !first.endsWith('.html') ? first : host;
+      $('tv-apk').href = `https://github.com/${owner}/${repo}/releases/download/tv-latest/mutarjim-tv.apk`;
+    })();
+
+    $('go-tv').onclick = () => startTV(false);
+    $('go-phone').onclick = () => startReader('phone');
+    $('go-pc').onclick = () => startReader('pc');
+    if (location.hash === '#overlay') startTV(true);
+    else if (location.hash === '#tv') startTV();
+    else if (location.hash === '#phone') startReader('phone');
+    else if (location.hash === '#pc') startReader('pc');
   })();
   </script>
 </body>

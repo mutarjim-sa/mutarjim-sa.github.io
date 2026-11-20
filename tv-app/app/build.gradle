@@ -1,0 +1,29 @@
+plugins {
+    id 'com.android.application'
+}
+
+// رابط صفحة المترجم في موقعنا. GitHub Actions يمرّره تلقائياً من اسم المستودع (-PsiteUrl=...)
+def siteUrl = project.findProperty('siteUrl') ?: 'https://example.github.io/mutarjim-sa/live.html'
+
+android {
+    namespace 'com.mutarjim.tv'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'com.mutarjim.tv'
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName '1.0'
+        buildConfigField 'String', 'SITE_URL', "\"${siteUrl}\""
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
