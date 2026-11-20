@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المترجم المباشر | مترجم</title>
+  <meta name="description" content="مترجم مباشر: الجوال يقرأ ترجمة اللعبة الإنجليزية من شاشة التلفزيون ويعرضها بالعربي على التلفزيون.">
+  <meta name="theme-color" content="#000000">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script>try{var t=localStorage.getItem('mutarjim-theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=Silkscreen&family=Cairo:wght@400;500;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="live">
+
+  <div id="site-header"></div>
+
+  <!-- الواجهة -->
+  <section class="page-head ruled">
+    <div class="container">
+      <nav class="crumbs" aria-label="مسار الصفحة"><a href="index.html">الرئيسية</a><span data-icon="chevL"></span><span>المترجم المباشر</span></nav>
+      <div class="page-head-row"><h1>المترجم المباشر</h1><span class="count">BETA</span></div>
+      <p>اللعبة مو مترجمة؟ جوالك يقرأ الترجمة الإنجليزية من شاشة التلفزيون ويترجمها، والتلفزيون يعرضها بالعربي. بدون أي تعديل على الجهاز أو اللعبة.</p>
+    </div>
+  </section>
+
+  <!-- اختيار الجهاز -->
+  <section class="section container" id="live-home">
+    <header class="sec-head">
+      <div class="sec-title"><span class="sec-no pix">01</span><h2>وش هذا الجهاز؟</h2></div>
+      <p>افتح هذي الصفحة في الجهازين: التلفزيون أول، بعدين الجوال.</p>
+    </header>
+    <div class="live-modes">
+      <button class="live-mode" id="go-tv" type="button">
+        <b>TV</b>
+        <h3>شاشة التلفزيون</h3>
+        <p>افتحها في متصفح التلفزيون. تطلع لك رمز من 8 أرقام يصلح لاتصال واحد، وبعدها تعرض الترجمة العربية بس.</p>
+        <span class="more">تشغيل كشاشة<span data-icon="arrowL"></span></span>
+      </button>
+      <button class="live-mode" id="go-phone" type="button">
+        <b>CAM</b>
+        <h3>الجوال (الكاميرا)</h3>
+        <p>حط جوالك على حامل قدام الشاشة. يقرأ الترجمة الإنجليزية ويرسلها مترجمة للتلفزيون.</p>
+        <span class="more">تشغيل كجوال<span data-icon="arrowL"></span></span>
+      </button>
+    </div>
+    <div class="notice">
+      <div>
+        <b>تبي تشوف اللعبة والترجمة مع بعض؟</b>
+        <span>استخدم ميزة Multi View في التلفزيون: السوني بجهة، والمتصفح بالجهة الثانية. وإذا ما يدعمها تلفزيونك، اعرض صفحة الشاشة على آيباد أو لابتوب جنبه.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- الجوال -->
+  <section class="section container" id="live-phone" hidden>
+    <header class="sec-head">
+      <div class="sec-title"><span class="sec-no pix">02</span><h2>الجوال</h2></div>
+      <p>اكتب الرقم اللي طالع على التلفزيون، شغّل الكاميرا، وحط الترجمة داخل المربع.</p>
+    </header>
+
+    <div class="live-phone">
+      <div class="live-row">
+        <label class="field live-code"><span class="sr-only">رقم التلفزيون</span><input id="code" inputmode="numeric" maxlength="9" placeholder="0000 0000" autocomplete="off"></label>
+        <button class="btn btn-solid" id="connect" type="button">اتصال</button>
+        <span class="tag tag-wip" id="conn-state">غير متصل</span>
+      </div>
+
+      <div class="live-stage" id="stage">
+        <div class="live-empty" id="stage-empty">اضغط «تشغيل الكاميرا» ووجّهها على التلفزيون</div>
+        <video id="video" playsinline muted hidden></video>
+        <div class="live-crop" id="crop" hidden><span class="lbl">حط الترجمة داخل المربع</span><span class="handle" id="handle"></span></div>
+      </div>
+
+      <div class="live-row">
+        <button class="btn btn-line" id="cam" type="button">تشغيل الكاميرا</button>
+        <button class="btn btn-solid" id="run" type="button" disabled>ابدأ الترجمة المباشرة</button>
+        <span class="tag tag-wip" id="ocr-state">القارئ ما اشتغل</span>
+      </div>
+      <div class="live-status" id="status" role="status"></div>
+
+      <div class="dialog live-dialog" aria-live="polite">
+        <span class="dialog-name">آخر جملة</span>
+        <div class="dialog-box">
+          <p class="live-en" id="last-en">—</p>
+          <p class="dialog-text" id="last-ar">—</p>
+        </div>
+      </div>
+
+      <details class="live-more live-style" open>
+        <summary>شكل الترجمة على التلفزيون</summary>
+        <div class="live-style-body">
+          <div class="live-tv mini" id="preview-tv" aria-label="معاينة شاشة التلفزيون">
+            <div class="live-tv-stage">
+              <div class="live-tv-hist"><p>أين كنت؟ لقد انتظرتُ لمدة ساعة!</p></div>
+              <div class="dialog live-tv-sub">
+                <span class="dialog-name">الترجمة</span>
+                <div class="dialog-box"><p class="dialog-text">اركب السيارة، الشرطة جاية!</p><p class="live-tv-en">Get in the car, the cops are coming!</p></div>
+              </div>
+            </div>
+          </div>
+
+          <form class="form" id="style-form">
+            <label>حجم الخط <span class="live-val" id="v-size"></span><input type="range" id="s-size" min="3" max="14" step="0.5"></label>
+            <div class="row-2">
+              <label>نوع الخط
+                <select id="s-font">
+                  <option value="readex">Readex Pro (خط الموقع)</option>
+                  <option value="cairo">Cairo</option>
+                  <option value="tajawal">Tajawal</option>
+                </select>
+              </label>
+              <label>سماكة الخط
+                <select id="s-weight">
+                  <option value="400">عادي</option>
+                  <option value="500">متوسط</option>
+                  <option value="700">عريض</option>
+                </select>
+              </label>
+            </div>
+            <div class="row-2">
+              <div class="live-field"><span>لون الخط</span>
+                <span class="live-swatches" data-for="s-color">
+                  <button type="button" data-c="#f3f2ec" style="background:#f3f2ec" aria-label="أبيض"></button>
+                  <button type="button" data-c="#ffe14d" style="background:#ffe14d" aria-label="أصفر"></button>
+                  <button type="button" data-c="#5fe0ff" style="background:#5fe0ff" aria-label="سماوي"></button>
+                  <button type="button" data-c="#7dff8a" style="background:#7dff8a" aria-label="أخضر"></button>
+                  <input type="color" id="s-color" aria-label="لون مخصص">
+                </span>
+              </div>
+              <div class="live-field"><span>لون الصندوق</span>
+                <span class="live-swatches" data-for="s-boxColor">
+                  <button type="button" data-c="#000000" style="background:#000" aria-label="أسود"></button>
+                  <button type="button" data-c="#1c1c1c" style="background:#1c1c1c" aria-label="رمادي غامق"></button>
+                  <button type="button" data-c="#0b2a4a" style="background:#0b2a4a" aria-label="كحلي"></button>
+                  <input type="color" id="s-boxColor" aria-label="لون مخصص">
+                </span>
+              </div>
+            </div>
+            <div class="row-2">
+              <label>مكان الترجمة
+                <select id="s-pos">
+                  <option value="bottom">تحت</option>
+                  <option value="middle">وسط</option>
+                  <option value="top">فوق</option>
+                </select>
+              </label>
+              <label>محاذاة النص
+                <select id="s-align">
+                  <option value="start">يمين</option>
+                  <option value="center">وسط</option>
+                </select>
+              </label>
+            </div>
+            <div class="row-2">
+              <label>شكل الصندوق
+                <select id="s-box">
+                  <option value="dialog">صندوق حوار (إطار مزدوج)</option>
+                  <option value="bar">شريط بدون إطار</option>
+                  <option value="none">بدون صندوق</option>
+                </select>
+              </label>
+              <div class="live-field"><span>لون خلفية الشاشة</span>
+                <span class="live-swatches" data-for="s-screen">
+                  <button type="button" data-c="#000000" style="background:#000" aria-label="أسود"></button>
+                  <button type="button" data-c="#111418" style="background:#111418" aria-label="رمادي"></button>
+                  <input type="color" id="s-screen" aria-label="لون مخصص">
+                </span>
+              </div>
+            </div>
+            <div class="row-2">
+              <label>الجمل السابقة
+                <select id="s-hist">
+                  <option value="0">لا تعرضها</option>
+                  <option value="1">جملة وحدة</option>
+                  <option value="2">جملتين</option>
+                  <option value="3">3 جمل</option>
+                </select>
+              </label>
+              <label>هامش الأطراف <span class="live-val" id="v-margin"></span><input type="range" id="s-margin" min="0" max="10" step="1"></label>
+            </div>
+            <div class="live-checks">
+              <label class="live-check"><input type="checkbox" id="s-outline">حد أسود حول الحروف</label>
+              <label class="live-check"><input type="checkbox" id="s-en">اعرض الجملة الإنجليزية تحت</label>
+              <label class="live-check"><input type="checkbox" id="s-label">اعرض كلمة «الترجمة» فوق الصندوق</label>
+            </div>
+            <div class="live-row">
+              <button type="button" class="btn btn-line btn-sm" id="s-reset">رجّع الافتراضي</button>
+              <span class="live-status" id="s-sync">التغييرات تنحفظ في جوالك وتوصل للتلفزيون أول ما تتصل.</span>
+            </div>
+          </form>
+        </div>
+      </details>
+
+      <details class="live-more">
+        <summary>اللي يشوفه القارئ (للتجربة)</summary>
+        <canvas class="live-preview" id="canvas"></canvas>
+      </details>
+      <details class="live-more">
+        <summary>نصائح لدقة أعلى</summary>
+        <ol>
+          <li>شغّل الترجمة النصية (Subtitles) في إعدادات اللعبة وكبّر حجمها، وخل خلفيتها معتمة إذا فيه خيار.</li>
+          <li>ثبّت الجوال على حامل، وخل المربع على مكان الترجمة بس.</li>
+          <li>طفِّ الأنوار اللي تنعكس على الشاشة.</li>
+        </ol>
+      </details>
+    </div>
+  </section>
+
+  <!-- التلفزيون -->
+  <section class="live-tv" id="live-tv" hidden>
+    <div class="live-tv-top">
+      <span class="logo-word">MUTARJIM LIVE</span>
+      <span class="live-tv-code"><span id="tv-hint">اكتب هذا الرقم في الجوال</span><b id="tv-code">····</b></span>
+    </div>
+    <div class="live-tv-stage">
+      <div class="live-tv-hist" id="tv-hist"></div>
+      <div class="dialog live-tv-sub">
+        <span class="dialog-name">الترجمة</span>
+        <div class="dialog-box"><p class="dialog-text" id="tv-subtitle"></p><p class="live-tv-en" id="tv-en"></p></div>
+      </div>
+    </div>
+  </section>
+
+  <div id="site-footer"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
+  <script>
+  (() => {
+    const $ = id => document.getElementById(id);
+    const PREFIX = 'mutarjim-sa-';
+    const TICK_MS = 850;
+    const SAME_RATIO = 0.75;
+
+    function show(view) {
+      $('live-home').hidden = view !== 'home';
+      $('live-phone').hidden = view !== 'phone';
+      $('live-tv').hidden = view !== 'tv';
+      document.body.classList.toggle('menu-open', view === 'tv');  // يقفل التمرير خلف شاشة التلفزيون
+      try { history.replaceState(null, '', view === 'home' ? location.pathname : '#' + view); } catch (e) {}
+      if (view === 'phone') $('live-phone').scrollIntoView();
+    }
+
+    async function keepAwake() {
+      try { await navigator.wakeLock.request('screen'); } catch (e) {}
+    }
+
+    /* ================= شكل الترجمة (مشترك بين الجوال والتلفزيون) ================= */
+    const STYLE_KEY = 'mutarjim-style';
+    const STYLE_DEFAULT = {
+      size: 6, font: 'readex', weight: '500', color: '#f3f2ec', boxColor: '#000000', screen: '#000000',
+      pos: 'bottom', align: 'start', box: 'dialog', hist: '3', margin: 3, outline: false, en: false, label: true
+    };
+    const FONTS = { readex: "'Readex Pro'", cairo: "'Cairo'", tajawal: "'Tajawal'" };
+    const PICK = { font: Object.keys(FONTS), weight: ['400', '500', '700'], pos: ['bottom', 'middle', 'top'], align: ['start', 'center'], box: ['dialog', 'bar', 'none'], hist: ['0', '1', '2', '3'] };
+
+    // يتحقق من كل قيمة (اللي يوصل من الجوال ما نثق فيه) ويرجّع الافتراضي لأي شي غلط
+    function cleanStyle(raw) {
+      const s = { ...STYLE_DEFAULT }, r = raw && typeof raw === 'object' ? raw : {};
+      const num = (v, a, b) => { v = Number(v); return Number.isFinite(v) ? Math.min(b, Math.max(a, v)) : null; };
+      if (num(r.size, 3, 14) !== null) s.size = num(r.size, 3, 14);
+      if (num(r.margin, 0, 10) !== null) s.margin = num(r.margin, 0, 10);
+      for (const k of ['color', 'boxColor', 'screen']) if (/^#[0-9a-f]{6}$/i.test(r[k])) s[k] = r[k];
+      for (const k in PICK) if (PICK[k].includes(String(r[k]))) s[k] = String(r[k]);
+      for (const k of ['outline', 'en', 'label']) if (typeof r[k] === 'boolean') s[k] = r[k];
+      return s;
+    }
+    function loadStyle() {
+      try { return cleanStyle(JSON.parse(localStorage.getItem(STYLE_KEY) || '{}')); } catch (e) { return { ...STYLE_DEFAULT }; }
+    }
+    function saveStyle(s) { try { localStorage.setItem(STYLE_KEY, JSON.stringify(s)); } catch (e) {} }
+    function applyStyle(el, s) {
+      el.style.setProperty('--sub-size', s.size);
+      el.style.setProperty('--sub-margin', s.margin);
+      el.style.setProperty('--sub-font', FONTS[s.font] + ", 'Readex Pro', Tahoma, sans-serif");
+      el.style.setProperty('--sub-weight', s.weight);
+      el.style.setProperty('--sub-color', s.color);
+      el.style.setProperty('--sub-box', s.boxColor);
+      el.style.setProperty('--sub-screen', s.screen);
+      Object.assign(el.dataset, { pos: s.pos, align: s.align, box: s.box, hist: s.hist, outline: s.outline, en: s.en, label: s.label });
+    }
+
+    /* ================= التلفزيون ================= */
+    function startTV() {
+      show('tv');
+      keepAwake();
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) keepAwake(); });
+      const hist = [];
+      applyStyle($('live-tv'), loadStyle());
+
+      // رمز من 8 أرقام يصلح لاتصال واحد بس: أول جوال يتصل ياخذه، وبعدها الرمز ينتهي،
+      // ولما الجوال يطلع يتولّد رمز جديد
+      function newCode() {
+        const n = new Uint32Array(1);
+        crypto.getRandomValues(n);
+        return String(10000000 + n[0] % 90000000);
+      }
+
+      function register() {
+        const code = newCode();
+        const peer = new Peer(PREFIX + code);
+        let used = false, ended = false, conn = null, lastSeen = 0, watch = null;
+
+        const restart = () => {
+          if (ended) return;
+          ended = true;
+          clearInterval(watch);
+          try { peer.destroy(); } catch (e) {}
+          register();
+        };
+
+        peer.on('open', () => {
+          if (used) return;
+          $('tv-code').textContent = code.slice(0, 4) + ' ' + code.slice(4);
+          $('tv-hint').textContent = 'اكتب هذا الرقم في الجوال';
+        });
+        peer.on('error', err => {
+          if (err.type === 'unavailable-id') { restart(); return; }
+          if (!used) $('tv-hint').textContent = 'مشكلة في الاتصال، حدّث الصفحة';
+        });
+        peer.on('disconnected', () => { if (!used) { try { peer.reconnect(); } catch (e) {} } });
+        peer.on('connection', c => {
+          if (used) { c.on('open', () => c.close()); return; }  // الرمز انستخدم
+          used = true; conn = c;
+          c.on('open', () => {
+            peer.disconnect();  // ينسحب من الوسيط: الرمز ما يقبل أي اتصال ثاني
+            $('tv-code').textContent = '✓';
+            $('tv-hint').textContent = 'الجوال متصل';
+            lastSeen = Date.now();
+            // الجوال يرسل نبضة كل 3 ثواني؛ لو اختفى 10 ثواني نعتبره طلع
+            watch = setInterval(() => { if (Date.now() - lastSeen > 10000) { try { conn.close(); } catch (e) {} restart(); } }, 2000);
+          });
+          c.on('data', msg => {
+            lastSeen = Date.now();
+            if (!msg) return;
+            if (msg.style) { const s = cleanStyle(msg.style); applyStyle($('live-tv'), s); saveStyle(s); }
+            if (typeof msg.ar === 'string') showLine(msg.ar, typeof msg.en === 'string' ? msg.en : '');
+          });
+          c.on('close', restart);
+          c.on('error', restart);
+        });
+      }
+
+      function showLine(text, en) {
+        const sub = $('tv-subtitle');
+        $('tv-en').textContent = en;
+        if (sub.textContent) {
+          hist.push(sub.textContent);
+          if (hist.length > 3) hist.shift();
+          $('tv-hist').replaceChildren(...hist.map(t => { const p = document.createElement('p'); p.textContent = t; return p; }));
+        }
+        sub.textContent = text;
+        sub.classList.remove('flash'); void sub.offsetWidth; sub.classList.add('flash');
+      }
+
+      register();
+    }
+
+    /* ================= الجوال ================= */
+    function startPhone() {
+      show('phone');
+      let peer = null, conn = null, stream = null, worker = null, running = false, timer = null, busy = false;
+      let lastSent = '';
+      // مربع القص كنسبة من حجم الفيديو
+      const box = { x: 0.1, y: 0.68, w: 0.8, h: 0.2 };
+      try { Object.assign(box, JSON.parse(localStorage.getItem('mutarjim-crop') || '{}')); } catch (e) {}
+
+      const setStatus = (t, err) => { $('status').textContent = t; $('status').classList.toggle('err', !!err); };
+      const setTag = (el, t, on) => { el.textContent = t; el.className = 'tag ' + (on ? 'tag-done' : 'tag-wip'); };
+
+      /* ---- شكل الترجمة ---- */
+      let style = loadStyle(), sendTimer = null;
+      const F = k => $('s-' + k);
+      function fillForm() {
+        for (const k of ['size', 'margin', 'font', 'weight', 'color', 'boxColor', 'screen', 'pos', 'align', 'box', 'hist']) F(k).value = style[k];
+        for (const k of ['outline', 'en', 'label']) F(k).checked = style[k];
+        showStyle();
+      }
+      function showStyle() {
+        $('v-size').textContent = Math.round(style.size / STYLE_DEFAULT.size * 100) + '%';
+        $('v-margin').textContent = style.margin;
+        applyStyle($('preview-tv'), style);
+        document.querySelectorAll('.live-swatches button').forEach(b => {
+          b.classList.toggle('on', style[b.parentElement.dataset.for.slice(2)] === b.dataset.c);
+        });
+      }
+      function sendStyle() {
+        clearTimeout(sendTimer);
+        sendTimer = setTimeout(() => { if (conn && conn.open) conn.send({ style }); }, 120);
+      }
+      function readForm() {
+        const r = {};
+        for (const k of ['size', 'margin', 'font', 'weight', 'color', 'boxColor', 'screen', 'pos', 'align', 'box', 'hist']) r[k] = F(k).value;
+        for (const k of ['outline', 'en', 'label']) r[k] = F(k).checked;
+        style = cleanStyle(r);
+        saveStyle(style); showStyle(); sendStyle();
+      }
+      $('style-form').addEventListener('input', readForm);
+      $('style-form').addEventListener('change', readForm);
+      $('style-form').addEventListener('submit', e => e.preventDefault());
+      document.querySelectorAll('.live-swatches button').forEach(b => b.addEventListener('click', () => {
+        F(b.parentElement.dataset.for.slice(2)).value = b.dataset.c;
+        readForm();
+      }));
+      $('s-reset').onclick = () => { style = { ...STYLE_DEFAULT }; saveStyle(style); fillForm(); sendStyle(); };
+      fillForm();
+
+      /* ---- الاتصال بالتلفزيون ---- */
+      // الرمز يصلح مرة وحدة: لما ينقطع الاتصال لازم تكتب الرمز الجديد اللي يطلع على التلفزيون
+      let beat = null;
+      function ended(msg) {
+        clearInterval(beat);
+        conn = null;
+        $('code').value = ''; $('code').disabled = false;
+        $('connect').textContent = 'اتصال';
+        setTag($('conn-state'), 'غير متصل');
+        setStatus(msg, true);
+      }
+      $('code').addEventListener('input', () => {
+        const v = $('code').value.replace(/\D/g, '').slice(0, 8);
+        $('code').value = v.length > 4 ? v.slice(0, 4) + ' ' + v.slice(4) : v;
+      });
+
+      $('connect').onclick = () => {
+        if (conn) { const c = conn; ended('قطعت الاتصال. التلفزيون بيطلع رمز جديد.'); c.close(); return; }
+        const code = $('code').value.replace(/\D/g, '');
+        if (code.length !== 8) { setStatus('اكتب الرمز اللي طالع على التلفزيون (8 أرقام).', true); return; }
+        setTag($('conn-state'), 'يتصل…');
+        const go = () => {
+          const c = conn = peer.connect(PREFIX + code, { reliable: true });
+          let opened = false;
+          c.on('open', () => {
+            opened = true;
+            // لو التلفزيون رفض (الرمز انستخدم) يقفل الاتصال فوراً
+            setTimeout(() => {
+              if (!c.open) return;
+              setTag($('conn-state'), 'متصل بالتلفزيون', true); setStatus('');
+              c.send({ style });
+              $('code').disabled = true; $('connect').textContent = 'قطع الاتصال';
+              beat = setInterval(() => { if (c.open) c.send({ ping: 1 }); }, 3000);
+            }, 600);
+          });
+          c.on('close', () => {
+            if (conn !== c) return;
+            ended(opened ? 'انتهى الاتصال والرمز انتهى معه. اكتب الرمز الجديد اللي على التلفزيون.' : 'الرمز غلط أو انستخدم قبل.');
+          });
+          c.on('error', () => { if (conn === c) ended('فشل الاتصال. اكتب الرمز اللي على التلفزيون.'); });
+        };
+        if (peer && peer.open) go();
+        else {
+          peer = new Peer();
+          peer.on('open', go);
+          peer.on('error', err => {
+            ended(err.type === 'peer-unavailable' ? 'الرمز غلط أو انتهى. اكتب الرمز اللي طالع على التلفزيون الحين.' : 'مشكلة في الاتصال. تأكد من الإنترنت.');
+          });
+        }
+      };
+
+      /* ---- الكاميرا ---- */
+      $('cam').onclick = async () => {
+        if (stream) return;
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false
+          });
+        } catch (e) {
+          setStatus(location.protocol !== 'https:' && location.hostname !== 'localhost'
+            ? 'الكاميرا تحتاج الموقع يكون https (ارفعه على GitHub Pages).'
+            : 'ما قدرت أفتح الكاميرا. اسمح للمتصفح يستخدمها.', true);
+          return;
+        }
+        const v = $('video');
+        v.srcObject = stream; v.hidden = false; $('stage-empty').hidden = true;
+        await v.play().catch(() => {});
+        $('crop').hidden = false; placeCrop();
+        $('cam').textContent = 'الكاميرا شغالة'; $('cam').disabled = true;
+        $('run').disabled = false;
+        keepAwake();
+        loadOCR();
+      };
+
+      async function loadOCR() {
+        if (worker) return;
+        setTag($('ocr-state'), 'يحمّل القارئ…');
+        try {
+          worker = await Tesseract.createWorker('eng');
+          await worker.setParameters({ tessedit_pageseg_mode: '6' });
+          setTag($('ocr-state'), 'القارئ جاهز', true);
+        } catch (e) {
+          worker = null;
+          setTag($('ocr-state'), 'فشل تحميل القارئ');
+          setStatus('ما قدرت أحمّل قارئ النصوص. تأكد من الإنترنت وحدّث الصفحة.', true);
+        }
+      }
+
+      /* ---- سحب وتكبير المربع ---- */
+      function placeCrop() {
+        const c = $('crop').style;
+        c.left = box.x * 100 + '%'; c.top = box.y * 100 + '%';
+        c.width = box.w * 100 + '%'; c.height = box.h * 100 + '%';
+      }
+      let drag = null;
+      $('crop').addEventListener('pointerdown', e => {
+        const r = $('stage').getBoundingClientRect();
+        drag = { mode: e.target.id === 'handle' ? 'size' : 'move', sx: e.clientX, sy: e.clientY, r, start: { ...box } };
+        $('crop').setPointerCapture(e.pointerId);
+        e.preventDefault();
+      });
+      $('crop').addEventListener('pointermove', e => {
+        if (!drag) return;
+        const dx = (e.clientX - drag.sx) / drag.r.width, dy = (e.clientY - drag.sy) / drag.r.height;
+        const s = drag.start, clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+        if (drag.mode === 'move') {
+          box.x = clamp(s.x + dx, 0, 1 - s.w); box.y = clamp(s.y + dy, 0, 1 - s.h);
+        } else {
+          // المقبض في الزاوية السفلية اليسرى
+          const nx = clamp(s.x + dx, 0, s.x + s.w - 0.1);
+          box.w = s.x + s.w - nx; box.x = nx;
+          box.h = clamp(s.h + dy, 0.06, 1 - s.y);
+        }
+        placeCrop();
+      });
+      const endDrag = () => { if (!drag) return; drag = null; try { localStorage.setItem('mutarjim-crop', JSON.stringify(box)); } catch (e) {} };
+      $('crop').addEventListener('pointerup', endDrag);
+      $('crop').addEventListener('pointercancel', endDrag);
+
+      /* ---- القص وتنقية الصورة ---- */
+      const canvas = $('canvas'), ctx = canvas.getContext('2d', { willReadFrequently: true });
+      function grabCrop() {
+        const v = $('video'), vw = v.videoWidth, vh = v.videoHeight;
+        if (!vw) return false;
+        const sx = box.x * vw, sy = box.y * vh, sw = box.w * vw, sh = box.h * vh;
+        const scale = Math.min(2, 1600 / sw);  // تكبير الحروف الصغيرة يساعد القارئ
+        canvas.width = Math.round(sw * scale); canvas.height = Math.round(sh * scale);
+        ctx.drawImage(v, sx, sy, sw, sh, 0, 0, canvas.width, canvas.height);
+        // grayscale(100%) + contrast(160%) يدوياً عشان يشتغل على كل المتصفحات
+        const img = ctx.getImageData(0, 0, canvas.width, canvas.height), d = img.data;
+        let sum = 0;
+        for (let i = 0; i < d.length; i += 4) {
+          const g = 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+          d[i] = g; sum += g;
+        }
+        const invert = sum / (d.length / 4) < 128;  // ترجمة اللعبة بيضاء على خلفية داكنة، والقارئ يحب الأسود على الأبيض
+        for (let i = 0; i < d.length; i += 4) {
+          let g = (d[i] - 128) * 1.6 + 128;
+          if (invert) g = 255 - g;
+          g = g < 0 ? 0 : g > 255 ? 255 : g;
+          d[i] = d[i + 1] = d[i + 2] = g;
+        }
+        ctx.putImageData(img, 0, 0);
+        return true;
+      }
+
+      /* ---- تنظيف النص وفلتر التكرار ---- */
+      const clean = raw => raw
+        .replace(/[\r\n]+/g, ' ')
+        .replace(/[^A-Za-z0-9 .,'’!?\-:;"$%&()]/g, ' ')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+      const words = t => t.toLowerCase().replace(/[^a-z0-9' ]/g, '').split(' ').filter(w => w.length > 1);
+      function isSameLine(a, b) {
+        const A = words(a), B = new Set(words(b));
+        if (!A.length || !B.size) return false;
+        return A.filter(w => B.has(w)).length / Math.max(A.length, B.size) > SAME_RATIO;
+      }
+      function looksLikeText(t) {
+        const letters = (t.match(/[A-Za-z]/g) || []).length;
+        return words(t).length >= 2 && letters >= 6 && letters / t.length > 0.6;
+      }
+
+      /* ---- الترجمة ---- */
+      // الأساسي: مترجم قوقل المجاني (بدون مفتاح وبدون حد يومي)، والاحتياطي: MyMemory لو قوقل ما رد
+      async function viaGoogle(en) {
+        const r = await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ar&dt=t&q=' + encodeURIComponent(en));
+        if (!r.ok) throw new Error('http ' + r.status);
+        const j = await r.json();
+        const ar = (j && j[0] || []).map(s => s && s[0] || '').join('').trim();
+        if (!ar) throw new Error('empty');
+        return ar;
+      }
+      async function viaMyMemory(en) {
+        const r = await fetch('https://api.mymemory.translated.net/get?langpair=en|ar&q=' + encodeURIComponent(en.slice(0, 480)));
+        if (!r.ok) throw new Error('http ' + r.status);
+        const j = await r.json();
+        const ar = j && j.responseData && j.responseData.translatedText;
+        if (!ar || j.responseStatus == 429 || /MYMEMORY WARNING|QUOTA/i.test(ar)) throw new Error('quota');
+        return ar;
+      }
+      const cache = new Map();
+      async function translate(en) {
+        if (cache.has(en)) return cache.get(en);
+        let ar;
+        try { ar = await viaGoogle(en); }
+        catch (e) { ar = await viaMyMemory(en); }
+        cache.set(en, ar);
+        if (cache.size > 300) cache.delete(cache.keys().next().value);
+        return ar;
+      }
+
+      /* ---- الحلقة ---- */
+      async function tick() {
+        if (busy || !worker || !running) return;
+        busy = true;
+        try {
+          if (!grabCrop()) return;
+          const { data } = await worker.recognize(canvas);
+          const en = clean(data.text || '');
+          if (data.confidence < 50 || !looksLikeText(en)) return;
+          if (isSameLine(en, lastSent)) return;
+          lastSent = en;
+          $('last-en').textContent = en;
+          const ar = await translate(en);
+          $('last-ar').textContent = ar;
+          if (conn && conn.open) conn.send({ ar, en, at: Date.now() });
+          setStatus('');
+        } catch (e) {
+          setStatus('تعذرت الترجمة، تأكد من الإنترنت. يحاول مرة ثانية…', true);
+        } finally {
+          busy = false;
+        }
+      }
+
+      $('run').onclick = () => {
+        running = !running;
+        if (running) {
+          if (!worker) setStatus('ينتظر القارئ يجهز…');
+          timer = setInterval(tick, TICK_MS);
+          $('run').textContent = 'إيقاف';
+        } else {
+          clearInterval(timer);
+          $('run').textContent = 'ابدأ الترجمة المباشرة';
+        }
+      };
+    }
+
+    $('go-tv').onclick = startTV;
+    $('go-phone').onclick = startPhone;
+    if (location.hash === '#tv') startTV();
+    else if (location.hash === '#phone') startPhone();
+  })();
+  </script>
+</body>
+</html>
